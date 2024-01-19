@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1140px;
+            padding: 16px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .custom-select,
+        .my-select {
+            min-width: 150px;
+            max-width: 200px;
+            position: relative;
+            margin: 0 16px;
+            width: 100%;
+            height: fit-content;
+        }
+
+
+        .custom-select.disable .selected-div {
+            cursor: not-allowed !important;
+            opacity: .6 !important;
+        }
+
+        .custom-select .list-ul,
+        .my-select .list-ul {
+            position: absolute;
+            top: calc(100% + 4px);
+            width: 100%;
+            border: 1px solid gray;
+            z-index: 20;
+            background: white;
+        }
+
+        .my-select .list-ul {
+            border: 2px solid blue;
+            max-height: 214px;
+            overflow-y: auto;
+        }
+
+        .custom-select .list-ul .custom-list,
+        .my-select .list-ul .custom-list {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        .custom-select .list-ul .custom-list:hover {
+            background: rgb(241, 241, 241);
+        }
+
+        .custom-select .list-ul .custom-list.selected {
+            background: rgb(241, 241, 241);
+        }
+
+        .my-select .list-ul .custom-list.selected {
+            background: blue;
+            color: white;
+            font-weight: bold;
+        }
+
+        .custom-select .selected-div,
+        .my-select .selected-div {
+            border: 1px solid gray;
+            padding: 8px 16px;
+            padding-right: 30px;
+            cursor: pointer;
+            text-transform: capitalize;
+        }
+
+        .my-select .selected-div {
+            border: 2px solid blue;
+        }
+
+        .custom-select .arrow-down,
+        .my-select .arrow-down {
+            width: 14px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 16px;
+            pointer-events: none;
+        }
+
+        .my-select .reset-btn,
+        .custom-select .reset-btn {
+            width: 14px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 32px;
+            cursor: pointer;
+        }
+
+        .my-select .reset-btn:hover,
+        .custom-select .reset-btn:hover {
+            color: red;
+        }
+
+        .content {
+            display: flex;
+            width: 100%;
+        }
+
+        .custom-select select:disabled~.custom-select {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="custom-select">
+                <select autocomplete="off">
+                    <option>select</option>
+                    <option value="1">item 1</option>
+                    <option value="2">item 2</option>
+                    <option value="3">item 3</option>
+                    <option value="4">item 4</option>
+                    <option value="5">item 5</option>
+                </select>
+            </div>
+            <div class="custom-select">
+                <select autocomplete="off" disabled>
+                    <option>select</option>
+                    <option value="1">item 1</option>
+                    <option value="2">item 2</option>
+                    <option value="3">item 3</option>
+                    <option value="4">item 4</option>
+                    <option value="5">item 5</option>
+                </select>
+            </div>
+            <div class="custom-select">
+                <select autocomplete="off">
+                    <option>select</option>
+                    <option value="1">item 1</option>
+                    <option value="2">item 2</option>
+                    <option value="3">item 3</option>
+                    <option selected value="4">item 4</option>
+                    <option value="5">item 5</option>
+                </select>
+            </div>
+            <div class="my-select">
+                <select autocomplete="off">
+                    <option>select country</option>
+                    <option value="1">bangladesh</option>
+                    <option value="2">india</option>
+                    <option value="3">pakistan</option>
+                    <option value="4">bhutan</option>
+                    <option selected value="5">nepal</option>
+                    <option value="6">srilanka</option>
+                    <option value="7">maldip</option>
+                    <option value="8">mayanmar</option>
+                    <option value="9">afganstan</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script src="./select.js"></script>
+
+    <script>
+
+        let customSelect = new CustomSelect({})
+        
+        let mySelect = new CustomSelect({
+            wrapperClass: 'my-select',
+            reset: true,
+            resetIcon: `<svg class="reset-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
+        `,
+            icon: `<svg class="arrow-down" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" /></svg>
+            `,
+        });
+
+    </script>
+</body>
+
+</html>
