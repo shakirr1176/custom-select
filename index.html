@@ -162,17 +162,25 @@
             <div class="my-select">
                 <select autocomplete="off">
                     <option>select country</option>
-                    <option value="1">bangladesh</option>
-                    <option value="2">india</option>
-                    <option value="3">pakistan</option>
-                    <option value="4">bhutan</option>
-                    <option selected value="5">nepal</option>
-                    <option value="6">srilanka</option>
-                    <option value="7">maldip</option>
-                    <option value="8">mayanmar</option>
-                    <option value="9">afganstan</option>
+                    <option value="BD">bangladesh</option>
+                    <option value="IND">india</option>
+                    <option value="PAK">pakistan</option>
+                    <option value="BHU">bhutan</option>
+                    <option selected value="NEP">nepal</option>
+                    <option value="SRI">srilanka</option>
+                    <option value="MAL">maldip</option>
+                    <option value="MAY">mayanmar</option>
+                    <option value="AFG">afganstan</option>
                 </select>
             </div>
+
+            <select class="def-select" name="" id="">
+                <option value="1">list1</option>
+                <option value="2">list2</option>
+                <option value="3">list3</option>
+                <option value="4">list4</option>
+                <option value="5">list5</option>
+            </select>
         </div>
     </div>
 
@@ -189,7 +197,21 @@
         `,
             icon: `<svg class="arrow-down" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" /></svg>
             `,
+            onChange: (selectedValue) => {
+                // do what ever when select value change 
+                console.log(`Selected value: ${selectedValue}`);
+            },
         });
+
+        let ownSelect = document.querySelector('.my-select').querySelector('select')
+
+        ownSelect.addEventListener('change',()=>{
+            console.log(ownSelect.value);
+        })
+
+        document.querySelector('.def-select').addEventListener('change',function(){
+            console.log(this.value);
+        })
 
     </script>
 </body>

@@ -1,5 +1,6 @@
 class CustomSelect {
     constructor(option) {
+        this.onChange = option.onChange; 
         this.reset = option.reset
         this.resetIcon = option.resetIcon ? option.resetIcon : `<svg class="reset-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`
         this.icon = option.icon ? option.icon : `<svg class="arrow-down" xmlns="htfirstLitp://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>`
@@ -14,10 +15,12 @@ class CustomSelect {
     draw() {
 
         window.addEventListener('load', () => {
-            let customSelect = document.querySelectorAll(`.${this.wrapperClass}`)
-            customSelect?.forEach(el => {
+
+            let AllCustomSelect = document.querySelectorAll(`.${this.wrapperClass}`)
+            AllCustomSelect?.forEach(el => {
                 this.convertToDiv(el)
             })
+
         })
 
         document.addEventListener('mouseover',(e)=>{
@@ -195,34 +198,41 @@ class CustomSelect {
     }
 
     selectOption(li) {
-        let customSelect = li.closest(`.${this.wrapperClass}`)
+        let customSelect = li.closest(`.${this.wrapperClass}`);
         if (customSelect) {
-            let listUl = li.closest(`.${this.dropDownDivClass}`)
-            let list = listUl.closest(`.${this.dropDownDivClass}`).querySelectorAll(`.${this.optionClass}`)
-            let options = customSelect.querySelector('select')?.querySelectorAll('option')
-            let resetBtn = customSelect.querySelector('.reset-btn')
+            let listUl = li.closest(`.${this.dropDownDivClass}`);
+            let list = listUl.closest(`.${this.dropDownDivClass}`).querySelectorAll(`.${this.optionClass}`);
+            let options = customSelect.querySelector('select')?.querySelectorAll('option');
+            let resetBtn = customSelect.querySelector('.reset-btn');
 
-            this.deselectAllOptions(list)
+            this.deselectAllOptions(list);
 
-            let indexOfli = [...list].indexOf(li)
-            options[indexOfli].selected = true
-            li?.classList.add('selected')
-            resetBtn?.classList.remove('hidden')
+            let indexOfli = [...list].indexOf(li);
+            options[indexOfli].selected = true;
+            li?.classList.add('selected');
+            resetBtn?.classList.remove('hidden');
 
             if (indexOfli == 0 && (options[0] && (options[0].getAttribute('value') == null || options[0].getAttribute('value') == ''))) {
-                li?.classList.remove('selected')
-                resetBtn?.classList.add('hidden')
-                let select = customSelect.querySelector('select')
+                li?.classList.remove('selected');
+                resetBtn?.classList.add('hidden');
+                let select = customSelect.querySelector('select');
+                
                 if (select) {
-                    select.value = ''
+                    select.value = '';
                 }
             }
 
-            let selectedDiv = customSelect.querySelector(`.${this.selectClass}`)
-            selectedDiv.innerHTML = li.innerHTML
-            listUl.classList.add('hidden')
+            let selectedDiv = customSelect.querySelector(`.${this.selectClass}`);
+            selectedDiv.innerHTML = li.innerHTML;
+            listUl.classList.add('hidden');
 
-            this.prevCustom = undefined
+            let select = customSelect.querySelector('select');
+
+            if (typeof this.onChange === 'function') {
+                this.onChange(select.value);
+            }
+
+            this.prevCustom = undefined;
         }
     }
 
