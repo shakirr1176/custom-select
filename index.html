@@ -33,12 +33,12 @@
             margin: 0 16px;
             width: 100%;
             height: fit-content;
+            cursor: pointer;
         }
 
-
-        .custom-select.disable .selected-div {
+        .custom-select.disable{
             cursor: not-allowed !important;
-            opacity: .6 !important;
+            opacity: .5 !important;
         }
 
         .custom-select .list-ul,
@@ -82,7 +82,6 @@
             border: 1px solid gray;
             padding: 8px 16px;
             padding-right: 30px;
-            cursor: pointer;
             text-transform: capitalize;
         }
 
@@ -107,12 +106,16 @@
             top: 50%;
             transform: translateY(-50%);
             right: 32px;
-            cursor: pointer;
         }
 
         .my-select .reset-btn:hover,
         .custom-select .reset-btn:hover {
             color: red;
+        }
+
+        .my-select.disable{
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .content {
@@ -174,13 +177,7 @@
                 </select>
             </div>
 
-            <select class="def-select" name="" id="">
-                <option value="1">list1</option>
-                <option value="2">list2</option>
-                <option value="3">list3</option>
-                <option value="4">list4</option>
-                <option value="5">list5</option>
-            </select>
+            <button class="disable-select">make disble</button>
         </div>
     </div>
 
@@ -188,7 +185,11 @@
 
     <script>
 
-        let customSelect = new CustomSelect({})
+        let customSelect = new CustomSelect({
+            onChange: (select) => {
+                // do what ever when select value change
+            }
+        })
         
         let mySelect = new CustomSelect({
             wrapperClass: 'my-select',
@@ -197,20 +198,20 @@
         `,
             icon: `<svg class="arrow-down" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" /></svg>
             `,
-            onChange: (selectedValue) => {
-                // do what ever when select value change 
-                console.log(`Selected value: ${selectedValue}`);
+            onChange: (select) => {
+                // do what ever when select value change
             },
         });
 
-        let ownSelect = document.querySelector('.my-select').querySelector('select')
+        let disableSelect = document.querySelector('.disable-select')
 
-        ownSelect.addEventListener('change',()=>{
-            console.log(ownSelect.value);
-        })
-
-        document.querySelector('.def-select').addEventListener('change',function(){
-            console.log(this.value);
+        disableSelect.addEventListener('click',()=>{
+            let mySelect = document.querySelector('.my-select').querySelector('select')
+            if(mySelect.disabled){
+                mySelect.disabled = false
+            }else{
+                mySelect.disabled = true
+            }
         })
 
     </script>

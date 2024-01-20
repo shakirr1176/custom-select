@@ -7,20 +7,35 @@ class CustomSelect {
         this.prevCustom = undefined
         this.wrapperClass = option.wrapperClass ? option.wrapperClass : 'custom-select'
         this.selectClass = option.selectClass ? option.selectClass : 'selected-div',
-            this.dropDownDivClass = option.dropDownDivClass ? option.dropDownDivClass : 'list-ul',
-            this.optionClass = option.optionClass ? option.optionClass : 'custom-list',
-            this.draw()
+        this.dropDownDivClass = option.dropDownDivClass ? option.dropDownDivClass : 'list-ul',
+        this.optionClass = option.optionClass ? option.optionClass : 'custom-list',
+        this.draw()
     }
 
     draw() {
-
         window.addEventListener('load', () => {
+            let observe = new MutationObserver(entries=>{
+                entries.forEach(entry=>{
+                    let customSelect = entry.target.closest(`.${this.wrapperClass}`)
+                    if(entry.target.disabled){
+                        customSelect.classList.add('disable')
+                    }else{
+                        customSelect.classList.remove('disable')
+                    }
+                })
+            });
 
             let AllCustomSelect = document.querySelectorAll(`.${this.wrapperClass}`)
             AllCustomSelect?.forEach(el => {
                 this.convertToDiv(el)
+                let select = el?.querySelector('select')
+                if(select){
+                    if(select.disabled){
+                        el.classList.add('disable')
+                    }
+                    observe.observe(select, {attributes:true})
+                }
             })
-
         })
 
         document.addEventListener('mouseover',(e)=>{
@@ -38,7 +53,8 @@ class CustomSelect {
         document.addEventListener('click', (e) => {
             if (e.target.closest('.reset-btn')) {
                 let customSelect = e.target.closest(`.${this.wrapperClass}`)
-                if (customSelect) {
+                let select = customSelect?.querySelector('select')
+                if (customSelect && select && !select.disabled) {
                     let firstLi = customSelect.querySelector(`.${this.optionClass}`)
                     if (firstLi) {
                         this.selectOption(firstLi)
@@ -152,7 +168,6 @@ class CustomSelect {
         if (!customSelect.querySelector(`.${this.dropDownDivClass}`)) {
 
             customSelect.innerHTML += this.icon
-
             if (this.reset) {
                 customSelect.innerHTML += this.resetIcon
             }
@@ -229,7 +244,7 @@ class CustomSelect {
             let select = customSelect.querySelector('select');
 
             if (typeof this.onChange === 'function') {
-                this.onChange(select.value);
+                this.onChange(select);
             }
 
             this.prevCustom = undefined;
