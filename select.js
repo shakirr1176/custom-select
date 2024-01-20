@@ -1,5 +1,6 @@
 class CustomSelect {
     constructor(option) {
+        this.observe = option.observe ? option.observe : false
         this.onChange = option.onChange; 
         this.reset = option.reset
         this.resetIcon = option.resetIcon ? option.resetIcon : `<svg class="reset-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`
@@ -14,26 +15,52 @@ class CustomSelect {
 
     draw() {
         window.addEventListener('load', () => {
-            let observe = new MutationObserver(entries=>{
+
+            let observer = new MutationObserver(entries=>{
                 entries.forEach(entry=>{
                     let customSelect = entry.target.closest(`.${this.wrapperClass}`)
-                    if(entry.target.disabled){
-                        customSelect.classList.add('disable')
-                    }else{
-                        customSelect.classList.remove('disable')
+                    if(entry.type == 'childList'){
+                        let allBuiltElement = [...customSelect.children].filter(el=> el.tagName != 'SELECT')
+                        allBuiltElement.forEach(el=>{
+                            el.remove()
+                        })
+
+                        this.convertToDiv(customSelect)
+
+                        observer.disconnect()
+
+                        let select = customSelect?.querySelector('select')
+                        if(select){
+                            observer.observe(select, {childList:true,attributes:true})
+                        }
+                    }
+
+                    if(entry.type == 'attributes'){
+                        if(entry.target.disabled){
+                            customSelect?.classList.add('disable')
+                        }else{
+                            customSelect?.classList.remove('disable')
+                        }
                     }
                 })
             });
 
             let AllCustomSelect = document.querySelectorAll(`.${this.wrapperClass}`)
+
             AllCustomSelect?.forEach(el => {
+
                 this.convertToDiv(el)
+
                 let select = el?.querySelector('select')
                 if(select){
                     if(select.disabled){
                         el.classList.add('disable')
                     }
-                    observe.observe(select, {attributes:true})
+                    if(this.observe){
+                        observer.observe(select, {childList:true,attributes:true})
+                    }else{
+                        observer.disconnect()
+                    }
                 }
             })
         })
@@ -126,9 +153,7 @@ class CustomSelect {
         let { crrLi, listUl, e } = obj
 
         if (e.key == 'ArrowDown') {
-
             let firstLi = listUl?.children[0]
-
             let nextSibl;
 
             if (crrLi && crrLi.nextElementSibling) {
@@ -145,7 +170,6 @@ class CustomSelect {
         if (e.key == 'ArrowUp') {
             let prevSibl;
             let lastLi = listUl?.children[listUl?.children.length - 1]
-
 
             if (crrLi && crrLi.previousElementSibling) {
                 prevSibl = crrLi.previousElementSibling
@@ -183,7 +207,6 @@ class CustomSelect {
             select?.classList.add('hidden')
 
             if (select && select.children.length > 0) {
-
                 let hasSelected = false;
                 let selectedLi = [];
 

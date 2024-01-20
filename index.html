@@ -126,6 +126,12 @@
         .custom-select select:disabled~.custom-select {
             opacity: 0.5;
         }
+
+        button{
+            padding: 10px 16px;
+            margin-right: 16px;
+        }
+
     </style>
 </head>
 
@@ -134,16 +140,6 @@
         <div class="content">
             <div class="custom-select">
                 <select autocomplete="off">
-                    <option>select</option>
-                    <option value="1">item 1</option>
-                    <option value="2">item 2</option>
-                    <option value="3">item 3</option>
-                    <option value="4">item 4</option>
-                    <option value="5">item 5</option>
-                </select>
-            </div>
-            <div class="custom-select">
-                <select autocomplete="off" disabled>
                     <option>select</option>
                     <option value="1">item 1</option>
                     <option value="2">item 2</option>
@@ -177,7 +173,9 @@
                 </select>
             </div>
 
-            <button class="disable-select">make disble</button>
+            <button class="disable-select">disble</button>
+            <button class="remove-option">remove</button>
+            <button class="add-option">add</button>
         </div>
     </div>
 
@@ -187,11 +185,12 @@
 
         let customSelect = new CustomSelect({
             onChange: (select) => {
-                // do what ever when select value change
+                
             }
         })
         
         let mySelect = new CustomSelect({
+            observe: true,
             wrapperClass: 'my-select',
             reset: true,
             resetIcon: `<svg class="reset-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
@@ -204,6 +203,8 @@
         });
 
         let disableSelect = document.querySelector('.disable-select')
+        let removeOption = document.querySelector('.remove-option')
+        let addOption = document.querySelector('.add-option')
 
         disableSelect.addEventListener('click',()=>{
             let mySelect = document.querySelector('.my-select').querySelector('select')
@@ -212,6 +213,17 @@
             }else{
                 mySelect.disabled = true
             }
+        })
+
+        removeOption.addEventListener('click',()=>{
+            let mySelect = document.querySelector('.my-select').querySelector('select')
+            if(mySelect.children.length > 0){
+                mySelect.children[mySelect.children.length - 1].remove()
+            }
+        })
+        addOption.addEventListener('click',()=>{
+            let mySelect = document.querySelector('.my-select').querySelector('select')
+            mySelect.innerHTML += '<option>last added</option>'
         })
 
     </script>
