@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./mySelect/css/mySelect.css">
     <style>
         * {
             margin: 0;
@@ -18,149 +19,24 @@
             margin: auto;
         }
 
-        ul {
-            list-style: none;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .my-select {
-            min-width: 150px;
-            max-width: 200px;
-            position: relative;
-            margin: 0 16px;
-            width: 100%;
-            height: fit-content;
-            cursor: pointer;
-        }
-
-        .my-select .list-wrapper {
-            background: white;
-            width: 100%;
-            position: absolute;
-            top: calc(100% + 4px);
-            z-index: 20;
-        }
-
-        .my-select .list-ul {
-            border: 2px solid blue;
-            max-height: 214px;
-            overflow-y: auto;
-        }
-
-        .my-select .list-ul .custom-list {
-            padding: 8px 16px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .my-select .list-ul .custom-list.selected {
-            background: blue;
-            color: white;
-        }
-
-        .my-select .selected-div {
-            border: 1px solid gray;
-            padding: 8px 16px;
-            padding-right: 30px;
-            text-transform: capitalize;
-            font-size: 14px;
-        }
-
-        .my-select .selected-div {
-            border: 2px solid blue;
-        }
-
-        .my-select .arrow-down {
-            width: 14px;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 16px;
-            pointer-events: none;
-        }
-
-        .my-select .arrow-down * {
-            width: 100%;
-        }
-
-        .my-select .reset-btn {
-            width: 14px;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 32px;
-            background: transparent;
-            border: none;
-        }
-
-        .my-select .reset-btn * {
-            width: 100%;
-            cursor: pointer;
-        }
-
-        .my-select .reset-btn:hover {
-            color: red;
-        }
-
-        .my-select.disable {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
         .content {
             width: 100%;
             display: flex;
             flex-wrap: wrap;
         }
 
-        .com-btn {
-            font-size: 12px;
-            padding: 9px 16px;
-            margin-right: 16px;
-        }
-
-        .key-active .custom-list {
-            cursor: none !important;
+        ul {
+            list-style: none;
         }
 
         .content>div {
             margin-bottom: 16px;
         }
 
-
-
-        .my-select .no-data {
-            padding: 10px 16px;
-            border: 1px solid gray;
-            font-size: 14px;
-            text-align: center;
-            text-transform: capitalize;
-            background: rgb(245, 245, 245);
-            cursor: auto;
-        }
-
-        .my-select .search-icon {
-            width: 16px;
-            margin-left: 8px;
-        }
-
-        .search-input-div {
-            height: 35px;
-            width: 100%;
-            border: 1px solid gray;
-            border-bottom: none;
-            display: flex;
-        }
-
-        .search-input {
-            outline: none;
-            padding: 10px 16px;
-            padding-left: 8px;
-            width: 100%;
-            border: none;
+        .com-btn {
+            font-size: 12px;
+            padding: 9px 16px;
+            margin-right: 16px;
         }
     </style>
 </head>
@@ -222,7 +98,7 @@
 
     <script type="module">
         import { countries, selectedCountry } from "./country.js";
-        import CustomSelect from "./mySelect/select.js";
+        import CustomSelect from "./mySelect/js/select.js";
 
         let oldSe = document.querySelectorAll('.custom-select')
 

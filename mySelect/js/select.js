@@ -58,7 +58,7 @@ class CustomSelect extends CommonVar{
         this.noDataMsg = option.noDataMsg ? option.noDataMsg : 'no data'
         this.noDataClass = option.noDataClass ? option.noDataClass : 'no-data'
         this.options = option.options ? option.options : false
-        this.searhIcon = option.searhIcon ? option.searhIcon : `<svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        this.searhIcon = option.searhIcon ? option.searhIcon : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
       </svg>`
         this.search = option.search ? option.search : false
@@ -181,13 +181,7 @@ class CustomSelect extends CommonVar{
                 }
             }
 
-            if(this.icon){
-                customSelect.innerHTML += `<span class="arrow-down">${this.icon}</span>`
-            }
-
-
             if (this.reset) {
-
                 let resetDiv = document.createElement('button')
                 resetDiv.className = 'reset-btn'
                 resetDiv.innerHTML = this.resetIcon
@@ -196,9 +190,16 @@ class CustomSelect extends CommonVar{
 
             }
 
+            if(this.icon){
+                let downDiv = document.createElement('span')
+                downDiv.className = 'arrow-down'
+                downDiv.innerHTML = this.icon
+                customSelect.append(downDiv)
+            }
+
             let selectedDiv = document.createElement('div')
             selectedDiv.className = this.selectClass
-            customSelect.append(selectedDiv)
+            customSelect.prepend(selectedDiv)
 
             let listUl = document.createElement('ul')
             listUl.className = this.dropDownDivClass
@@ -237,7 +238,7 @@ class CustomSelect extends CommonVar{
                 if (this.search) {
                     let div = document.createElement('div')
                     div.className = this.searchInputClass + '-div'
-                    div.innerHTML = this.searhIcon
+                    div.innerHTML = `<span class="search-icon">${this.searhIcon}</span>`
                     let inp = document.createElement('input')
                     inp.className = this.searchInputClass
                     inp.oninput = () => this.doSearch({ select, inp, value: inp.value })
@@ -247,7 +248,7 @@ class CustomSelect extends CommonVar{
                 }
 
                 listWrapper.append(listUl)
-                customSelect.append(listWrapper)
+                customSelect.prepend(listWrapper)
                 this.selectOption(selectedLi[0])
 
             }
