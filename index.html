@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./mySelect/css/mySelect.css">
+
+    
     <style>
         * {
             margin: 0;
@@ -48,7 +50,7 @@
                 <select autocomplete="off">
                     <option>select</option>
                     <option value="1">ls 1</option>
-                    <option value="2">ls 2</option>
+                    <option selected value="2">ls 2</option>
                     <option value="3">ls 3</option>
                     <option value="4">ls 4</option>
                     <option value="5">ls 5</option>
@@ -66,7 +68,7 @@
             </div>
 
             <div class="cus-select">
-                <select autocomplete="off">
+                <select class="ore" autocomplete="off">
                     <option>select country</option>
                     <option value="BD">bangladesh</option>
                     <option value="IND">india</option>
@@ -79,7 +81,6 @@
                     <option value="AFG">afganstan</option>
                 </select>
             </div>
-
             <div>
                 <button class="com-btn disable-select">disable</button>
             </div>
@@ -97,43 +98,48 @@
     </div>
 
     <script type="module">
+
         import { countries, selectedCountry } from "./country.js";
-        import CustomSelect from "./mySelect/js/select.js";
+        import { TurnIntoCustom, customSelect } from "./mySelect/js/select.js";
 
         let oldSe = document.querySelectorAll('.custom-select')
-
+        
         oldSe.forEach(el => {
-            let a = new CustomSelect(el, {
-                onChange: (select) => {
-                    // console.log(select);
-                }
+            let a = new TurnIntoCustom(el,{
+                search: true,
+                reset: true,
+            // options: selectedCountry,
+
             })
         })
 
+        customSelect.onChange = (select) => {
+            // console.log(select.value);
+        }
+
         let mySelect = document.querySelector('.cus-select')
 
-        let myselect = new CustomSelect(mySelect, {
+        let myselect = new TurnIntoCustom(mySelect, {
             search: true,
             placeholder: 'Search',
-            observe: true,
             reset: true,
             defaultSelectedText: 'select country',
-            options: selectedCountry,
+            // options: selectedCountry,
             resetIcon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`,
-            onChange: (select) => {
+            onLoad: (select) => {
                 // console.log(select);
-            },
+            }
         });
 
         let addSelect = document.querySelector('.add-select')
 
         addSelect.addEventListener('click', () => {
             let DIV = document.createElement('div')
-            DIV.className = 'my-select'
+            DIV.className = 'cus-select'
             DIV.innerHTML = ` <select autocomplete="off"></select>`
             content.append(DIV)
 
-            let nwwSelect = new CustomSelect(DIV, {
+            let nwwSelect = new TurnIntoCustom(DIV, {
                 search: true,
                 placeholder: 'Search',
                 observe: true,
@@ -150,7 +156,7 @@
         let content = document.querySelector('.content')
 
         disableSelect.addEventListener('click', () => {
-            let mySelect = document.querySelectorAll('.my-select')
+            let mySelect = document.querySelectorAll('.cus-select')
             mySelect.forEach(el => {
                 let sl = el.querySelector('select')
                 if (sl.disabled) {
@@ -162,7 +168,7 @@
         })
 
         removeOption.addEventListener('click', () => {
-            let mySelect = document.querySelectorAll('.my-select')
+            let mySelect = document.querySelectorAll('.cus-select')
             mySelect.forEach(el => {
                 let sl = el.querySelector('select')
                 sl.children[sl.children.length - 1].remove()
@@ -170,7 +176,7 @@
         })
 
         addOption.addEventListener('click', () => {
-            let mySelect = document.querySelectorAll('.my-select')
+            let mySelect = document.querySelectorAll('.cus-select')
             mySelect.forEach(el => {
                 let sl = el.querySelector('select')
                 sl.innerHTML += '<option>last added</option>'

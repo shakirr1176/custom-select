@@ -3,7 +3,7 @@ import CommonVar from "./commonVar.js"
  class EventHandle extends CommonVar{
     constructor(option) {
         super()
-        this.onChange = option.onChange;
+        this.onChange = option && option.onChange;
         this.prevCustom = undefined
         this.eventHandle()
     }
@@ -36,8 +36,6 @@ import CommonVar from "./commonVar.js"
         }
     }
 
-    
-
     selectOptionWithEvent(e) {
         if (e.target.closest(`.${this.optionClass}`)) {
             let li = e.target.closest(`.${this.optionClass}`)
@@ -60,6 +58,9 @@ import CommonVar from "./commonVar.js"
             if (currentList && currentList.querySelector('select') && !currentList.querySelector('select').disabled && this.prevCustom != currentList) {
                 let currentListItem = currentList.querySelector(`.${this.dropDownDivWrapperClass}`)
                 currentListItem?.classList.remove('hidden')
+
+                this.handleListPost(currentList)
+
                 this.prevCustom = currentList
 
                 let select = currentList.querySelector('select')

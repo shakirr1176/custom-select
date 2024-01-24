@@ -1,7 +1,7 @@
 class CommonVar{
     constructor(){
         this.searchInputClass = 'search-input'
-        this.wrapperClass = 'my-select'
+        this.wrapperClass = 'my-select-js'
         this.selectClass = 'selected-div',
         this.dropDownDivWrapperClass = 'list-wrapper'
         this.dropDownDivClass = 'list-ul',
@@ -45,6 +45,8 @@ class CommonVar{
 
             let select = customSelect.querySelector('select');
 
+            select.dataset['oldvalue'] = select.value
+
             if (!customSelect.classList.contains('searching')) {
                 listWrapper.classList.add('hidden');
             }
@@ -57,6 +59,25 @@ class CommonVar{
 
     deselectAllOptions(list) {
         list?.forEach(opt => opt.classList.remove('selected'));
+    }
+
+    handleListPost(wrapperDiv){
+
+        if (!wrapperDiv) return
+
+        let dropdown = wrapperDiv.querySelector(`.${this.dropDownDivWrapperClass}`);
+
+        let button = wrapperDiv.querySelector(`.${this.selectClass}`)
+
+        if (!button) return
+        let spaceBelow = window.innerHeight - button.getBoundingClientRect().bottom;
+        let spaceAbove = button.getBoundingClientRect().top;
+        
+        if (spaceBelow < dropdown.clientHeight && spaceAbove > dropdown.clientHeight) {
+            dropdown.style.top = (button.offsetTop - dropdown.clientHeight - 4) + 'px';
+        } else {
+            dropdown.style.top = (button.offsetTop + button.offsetHeight + 4) + 'px';
+        }
     }
 }
 
