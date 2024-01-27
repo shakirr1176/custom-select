@@ -33,12 +33,17 @@
 
         .content>div {
             margin-bottom: 16px;
+            max-width: 400px;
         }
 
         .com-btn {
             font-size: 12px;
             padding: 9px 16px;
             margin-right: 16px;
+        }
+        .cus-select{
+            min-width: 150px;
+            max-width: 500px;
         }
     </style>
 </head>
@@ -68,27 +73,21 @@
             </div>
 
             <div class="cus-select">
-                <select class="ore" autocomplete="off">
-                    <option>select country</option>
+                <select multiple class="ore" autocomplete="off">
+                    <option>as</option>
                     <option value="BD">bangladesh</option>
                     <option value="IND">india</option>
                     <option value="PAK">pakistan</option>
-                    <option value="BHU">bhutan</option>
+                    <option selected value="BHU">bhutan</option>
                     <option value="NEP">nepal</option>
                     <option value="SRI">srilanka</option>
-                    <option value="MAL">maldip</option>
+                    <option selected value="MAL">maldip</option>
                     <option value="MAY">mayanmar</option>
                     <option value="AFG">afganstan</option>
                 </select>
             </div>
             <div>
                 <button class="com-btn disable-select">disable</button>
-            </div>
-            <div>
-                <button class="com-btn remove-option">remove</button>
-            </div>
-            <div>
-                <button class="com-btn add-option">add</button>
             </div>
             <div>
                 <button class="com-btn add-select">add new select</button>
@@ -105,12 +104,7 @@
         let oldSe = document.querySelectorAll('.custom-select')
         
         oldSe.forEach(el => {
-            let a = new TurnIntoCustom(el,{
-                search: true,
-                reset: true,
-            // options: selectedCountry,
-
-            })
+            let aa = new TurnIntoCustom(el)
         })
 
         customSelect.onChange = (select) => {
@@ -122,7 +116,7 @@
         let myselect = new TurnIntoCustom(mySelect, {
             search: true,
             placeholder: 'Search',
-            reset: true,
+            // reset: true,
             defaultSelectedText: 'select country',
             // options: selectedCountry,
             resetIcon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`,
@@ -136,7 +130,7 @@
         addSelect.addEventListener('click', () => {
             let DIV = document.createElement('div')
             DIV.className = 'cus-select'
-            DIV.innerHTML = ` <select autocomplete="off"></select>`
+            DIV.innerHTML = ` <select multiple autocomplete="off"></select>`
             content.append(DIV)
 
             let nwwSelect = new TurnIntoCustom(DIV, {
@@ -151,8 +145,6 @@
         })
 
         let disableSelect = document.querySelector('.disable-select')
-        let removeOption = document.querySelector('.remove-option')
-        let addOption = document.querySelector('.add-option')
         let content = document.querySelector('.content')
 
         disableSelect.addEventListener('click', () => {
@@ -167,21 +159,9 @@
             })
         })
 
-        removeOption.addEventListener('click', () => {
-            let mySelect = document.querySelectorAll('.cus-select')
-            mySelect.forEach(el => {
-                let sl = el.querySelector('select')
-                sl.children[sl.children.length - 1].remove()
-            })
-        })
-
-        addOption.addEventListener('click', () => {
-            let mySelect = document.querySelectorAll('.cus-select')
-            mySelect.forEach(el => {
-                let sl = el.querySelector('select')
-                sl.innerHTML += '<option>last added</option>'
-            })
-        })
+        // window.addEventListener('click',()=>{
+        //     console.log(mySelect.querySelector('select').selectedOptions);
+        // })
     </script>
 </body>
 

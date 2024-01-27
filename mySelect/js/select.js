@@ -1,7 +1,7 @@
 import CommonVar from "./commonVar.js"
 import EventHandle from "./eventHandle.js"
 
-export class TurnIntoCustom extends CommonVar{
+export class TurnIntoCustom extends CommonVar {
     constructor(wrapper, option) {
         super()
         this.declaration(wrapper, option)
@@ -13,9 +13,9 @@ export class TurnIntoCustom extends CommonVar{
         this.observer = () => {
             return new MutationObserver(entries => {
 
-                if(entries[0] && entries[0].type == 'attributes'){
+                if (entries[0] && entries[0].type == 'attributes') {
                     let select = entries[0].target
-                    if(select){
+                    if (select) {
                         let customSelect = select.closest(`.${this.wrapperClass}`)
                         if (select.disabled) {
                             customSelect?.classList.add('disable')
@@ -24,9 +24,11 @@ export class TurnIntoCustom extends CommonVar{
                         }
                     }
                 }
+                
+                if (entries[0] && entries[0].type == 'childList') {
+                    
+                    let select = entries[0].target
 
-                if(entries[1] && entries[1].type == 'childList'){
-                    let select = entries[1].target
                     if (select) {
                         let customSelect = select.closest(`.${this.wrapperClass}`)
 
@@ -39,24 +41,14 @@ export class TurnIntoCustom extends CommonVar{
                         let lists = '';
 
                         let isSelected = false
-
+                        
                         if (select.children.length > 0) {
                             for (let i = 0; i < select.children.length; i++) {
-                                if(i > 0 && select.value == select.children[i].value){
-                                    isSelected = true
-                                    select.children[i].selected = true
-                                }else{
-                                    isSelected = false
-                                }
-
-                                lists += `<li class="${this.optionClass} ${isSelected ? 'selected' : ''}">${select.children[i].innerHTML}</li>`
+                                lists += `<li class="${this.optionClass} ${select.children[i].selected ? 'selected' : ''}">${select.children[i].innerHTML}</li>`
                             }
                         }
 
                         listUl.innerHTML = lists
-
-                        let wrapperDiv = listUl.closest(`.${this.wrapperClass}`)
-                        this.handleListPost(wrapperDiv)
 
                         if (this.reset || this.search) {
                             listUl.children[0].classList.add('hidden')
@@ -70,7 +62,8 @@ export class TurnIntoCustom extends CommonVar{
 
     declaration(wrapper, option) {
         this.wrapper = wrapper
-
+        
+        this.multiple = option && option.multiple ? option.multiple : false
         this.noDataMsg = option && option.noDataMsg ? option.noDataMsg : 'no data'
         this.noDataClass = option && option.noDataClass ? option.noDataClass : 'no-data'
         this.defaultSelectedText = option && option.defaultSelectedText ? option.defaultSelectedText : (this.madeOption(this.wrapper).defText ? this.madeOption(this.wrapper).defText : 'select')
@@ -78,19 +71,24 @@ export class TurnIntoCustom extends CommonVar{
         this.searhIcon = option && option.searhIcon ? option.searhIcon : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
       </svg>`
+
         this.search = option && option.search ? option.search : false
         this.placeholder = option && option.placeholder ? option.placeholder : 'Search'
         this.observe = option && option.observe == false && this.search == false ? false : true
         this.onChange = option && option.onLoad;
-        this.reset = option && option.reset
+        this.reset = option && option.reset  ? option.reset : this.search ? this.search : false
         this.resetIcon = option && option.resetIcon ? option.resetIcon : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`
         this.icon = option && option.icon ? option.icon : `<svg xmlns="htfirstLitp://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>`
     }
 
     draw() {
+
         if (this.options && this.options.length > 0) {
             let select = this.wrapper?.querySelector('select')
             if (select) {
+                if(select.multiple){
+                    this.multiple = true
+                }
                 select.innerHTML = `<option>${this.defaultSelectedText}</option>`
                 let allOption = select.innerHTML
                 this.options.forEach(opt => {
@@ -107,30 +105,30 @@ export class TurnIntoCustom extends CommonVar{
         }
     }
 
-    madeOption(wrapper){
+    madeOption(wrapper) {
 
-        if(!wrapper) return
+        if (!wrapper) return
 
         let select = wrapper.querySelector('select')
-        
+
         let opts = [...select.children]
 
         let convertedOption;
         let defText;
 
-        if(opts.length){
-            convertedOption = opts.map(opt=> {
+        if (opts.length) {
+            convertedOption = opts.map((opt,i) => {
                 return {
-                    'value' : opt.value,
-                    'title' : opt.innerHTML,
-                    'selected' : opt.selected ? true : false
+                    'value': opt.value,
+                    'title': opt.innerHTML,
+                    'selected': opt.selected ? true : false,
                 }
             })
         }
 
-        if(opts[0] && (opts[0].getAttribute('value') == null || opts[0].getAttribute('value') == '')){
+        if (opts[0] && (opts[0].getAttribute('value') == null || opts[0].getAttribute('value') == '')) {
             defText = convertedOption[0].title
-            convertedOption = convertedOption.slice(1,convertedOption.length)
+            convertedOption = convertedOption.slice(1, convertedOption.length)
         }
 
         return {
@@ -140,11 +138,12 @@ export class TurnIntoCustom extends CommonVar{
     }
 
     doSearch(obj) {
-        if(this.observe){
-            let { select, value } = obj
+        if (this.observe) {
+            let { customSelect, value } = obj
             if (this.options) {
                 let lists = this.options.filter(data => data.title.toLowerCase().startsWith(value.toLowerCase()))
-                this.buildList(lists, select)
+                this.buildList(lists, customSelect)
+                this.handleListPost(customSelect)
             } else {
                 console.warn('options property missing')
             }
@@ -157,13 +156,12 @@ export class TurnIntoCustom extends CommonVar{
             let select = customSelect?.querySelector('select')
 
             if (this.options) {
-                this.buildList(this.options, select)
+                this.buildList(this.options, customSelect)
             }
 
             if (customSelect && select && !select.disabled) {
 
-                select.children[0].value = ''
-                select.dataset['oldvalue'] = ''
+                select.children[0].removeAttribute('value')
 
                 let firstLi = customSelect.querySelector(`.${this.optionClass}`)
 
@@ -171,33 +169,44 @@ export class TurnIntoCustom extends CommonVar{
 
                     this.selectOption(firstLi)
 
+                    let selectedDiv = customSelect.querySelectorAll(`.${this.optionClass}.selected`)
+                    selectedDiv?.forEach(el=> el.classList.remove('selected'))
+
                     if (customSelect.querySelector(`.${this.searchInputClass}`)) {
                         customSelect.querySelector(`.${this.searchInputClass}`).value = ''
                     }
                 }
             }
+
+            this.handleListPost(customSelect)
         }
     }
 
-    buildList(lists, select) {
-        let cus = select?.closest(`.${this.wrapperClass}`)
+    buildList(lists, cus) {
+        if(!cus) return
+
         cus?.classList.add('searching')
 
-        if (!select) return
+        let listUlWrapper = cus.querySelector(`.${this.dropDownDivWrapperClass}`)
+        let listUl = cus.querySelector(`.${this.dropDownDivClass}`)
+        let select = cus.querySelector('select')
 
-        select.innerHTML = `<option>${this.defaultSelectedText}</option>`
-        let allOption = select.innerHTML
-        lists.forEach(opt => {
-            let singleOpt = `<option value="${opt.value}">${opt.title}</option>`
-            allOption += singleOpt
+        if (!listUl) return
+
+        let allOption = `<li data-index="0" class="${this.optionClass} hidden">${this.defaultSelectedText}</li>`
+
+        lists.forEach((opt) => {
+            allOption += `<li data-value="${opt.value}" data-index="${opt.index}" class="${this.optionClass}">${opt.title}</li>`
         })
 
-        select.innerHTML = allOption
+        listUl.innerHTML = allOption
 
-        select.children[0].value = select.dataset['oldvalue']
-
-        let listUlWrapper = cus?.querySelector(`.${this.dropDownDivWrapperClass}`)
-        let listUl = cus?.querySelector(`.${this.dropDownDivClass}`)
+        for (let i = 0; i < select.selectedOptions.length; i++) {
+            let filterlist = cus.querySelector(`.${this.dropDownDivWrapperClass}`)?.querySelector(`.${this.optionClass}[data-index='${select.selectedOptions[i].index}']`)
+            if(filterlist){
+                filterlist.classList.add('selected')
+            }
+        }
 
         let noDataDiv = listUlWrapper?.querySelector(`.${this.noDataClass}`)
 
@@ -208,7 +217,7 @@ export class TurnIntoCustom extends CommonVar{
                 noDataShow.className = this.noDataClass
 
                 if (listUlWrapper && listUl) {
-                    listUlWrapper.append(noDataShow)
+                    listUlWrapper.appendChild(noDataShow)
                     listUl.style.all = 'initial'
                 }
             }
@@ -223,13 +232,17 @@ export class TurnIntoCustom extends CommonVar{
     convertToDiv(customSelect) {
         if (!customSelect.querySelector(`.${this.dropDownDivClass}`)) {
             if (this.options && this.options.length > 0) {
+
+                this.options.forEach((el,i)=>{
+                    el.index = i+1
+                })
+
                 let select = customSelect?.querySelector('select')
                 if (select) {
                     select.innerHTML = `<option>${this.defaultSelectedText}</option>`
                     let allOption = select.innerHTML
-
                     this.options.forEach(opt => {
-                        let singleOpt = `<option ${opt.selected ? 'selected' : ''} value="${opt.value}">${opt.title}</option>`
+                        let singleOpt = `<option value="${opt.value}">${opt.title}</option>`
                         allOption += singleOpt
                     })
 
@@ -242,15 +255,14 @@ export class TurnIntoCustom extends CommonVar{
                 resetDiv.className = 'reset-btn'
                 resetDiv.innerHTML = this.resetIcon
                 resetDiv.onclick = () => this.resetFunc(resetDiv)
-                customSelect.append(resetDiv)
-
+                customSelect.appendChild(resetDiv)
             }
 
-            if(this.icon){
+            if (this.icon) {
                 let downDiv = document.createElement('span')
                 downDiv.className = 'arrow-down'
                 downDiv.innerHTML = this.icon
-                customSelect.append(downDiv)
+                customSelect.appendChild(downDiv)
             }
 
             let selectedDiv = document.createElement('div')
@@ -263,29 +275,42 @@ export class TurnIntoCustom extends CommonVar{
             let select = customSelect?.querySelector('select')
             select?.classList.add('hidden')
 
-            if (select && select.children.length > 0) {
+            if (select && this.options && this.options.length > 0) {
                 let hasSelected = false;
                 let selectedLi = [];
-                let selectedIndex;
-
+                let selectedIndex = [];
                 let lists = ''
-                for (let i = 0; i < select.children.length; i++) {
-                    lists += `<li class="${this.optionClass}">${select.children[i].innerHTML}</li>`
 
-                    if (i > 0) {
-                        if (select.children[i].selected) {
-                            hasSelected = true
-                            selectedIndex = i
+                lists = `<li data-index="0" class="${this.optionClass}">${this.defaultSelectedText}</li>`
+
+                for (let i = 0; i < this.options.length; i++) {
+
+                    lists += `<li data-value="${this.options[i].value}" data-index="${this.options[i].index}" class="${this.optionClass}">${this.options[i].title}</li>`
+
+                    if (this.options[i].selected) {
+                        hasSelected = true
+                        if(this.multiple){
+                            selectedIndex.push(this.options[i].index)
+                        }else{
+                            selectedIndex = [this.options[i].index]
                         }
                     }
                 }
 
                 listUl.innerHTML = lists
 
+                if (this.reset || this.search) {
+                    listUl.children[0].classList.add('hidden')
+                }
+
                 if (!hasSelected) {
                     selectedLi = [listUl.children[0]]
                 } else {
-                    selectedLi.push(listUl.children[selectedIndex])
+                    if(this.multiple){
+                        selectedLi = selectedIndex.map(el=>listUl.children[el])
+                    }else{
+                        selectedLi = [listUl.children[selectedIndex[selectedIndex.length-1]]]
+                    }
                 }
 
                 let listWrapper = document.createElement('div')
@@ -297,16 +322,28 @@ export class TurnIntoCustom extends CommonVar{
                     div.innerHTML = `<span class="search-icon">${this.searhIcon}</span>`
                     let inp = document.createElement('input')
                     inp.className = this.searchInputClass
-                    inp.oninput = () => this.doSearch({ select, inp, value: inp.value })
+                    inp.oninput = () => this.doSearch({ customSelect, inp, value: inp.value })
                     inp.placeholder = this.placeholder
-                    div.append(inp)
-                    listWrapper.append(div)
+                    div.appendChild(inp)
+                    listWrapper.appendChild(div)
                 }
 
-                listWrapper.append(listUl)
+                listWrapper.appendChild(listUl)
                 customSelect.prepend(listWrapper)
-                this.selectOption(selectedLi[0])
+                if(this.multiple){
+                    listWrapper.classList.add('hidden')
+                    if(selectedDiv.innerHTML == ''){
+                        selectedDiv.innerHTML = listUl.children[0].innerHTML
+                        let resetBtn = customSelect.querySelector('.reset-btn');
+                        resetBtn?.classList.add('hidden')
+                    }
 
+                    selectedIndex.forEach(index=>{
+                        this.selectMultiple({index,listUl,select})
+                    })
+                }else{
+                    this.selectOption(selectedLi[selectedLi.length-1])
+                }
             }
 
             if (select) {

@@ -1,6 +1,6 @@
 import CommonVar from "./commonVar.js"
 
- class EventHandle extends CommonVar{
+class EventHandle extends CommonVar {
     constructor(option) {
         super()
         this.onChange = option && option.onChange;
@@ -21,9 +21,10 @@ import CommonVar from "./commonVar.js"
             let li = e.target.closest(`.${this.optionClass}`)
             let listUl = li.closest(`.${this.dropDownDivClass}`)
             let list = listUl.closest(`.${this.dropDownDivClass}`).querySelectorAll(`.${this.optionClass}`)
+            let activeLis = listUl?.querySelector('.active')
             if (li && !listUl.classList.contains('key-active')) {
-                this.deselectAllOptions(list)
-                li.classList.add('selected')
+                activeLis?.classList.remove('active')
+                li.classList.add('active')
             }
         }
     }
@@ -38,11 +39,24 @@ import CommonVar from "./commonVar.js"
 
     selectOptionWithEvent(e) {
         if (e.target.closest(`.${this.optionClass}`)) {
+
             let li = e.target.closest(`.${this.optionClass}`)
-            if (li) {
-                this.prevCustom?.classList.remove('searching')
-                this.selectOption(li)
-                this.prevCustom = undefined;
+            let select = li.closest(`.${this.wrapperClass}`)?.querySelector('select')
+
+            if (li && select) {
+                if (select.multiple == true) {
+                    let index = li.dataset['index']
+                    let listUl = li.closest(`.${this.wrapperClass}`)?.querySelector(`.${this.dropDownDivClass}`)
+                    
+                    this.selectMultiple({ index, listUl, select })
+                } else {
+                    this.prevCustom?.classList.remove('searching')
+                    this.selectOption(li)
+                    this.prevCustom = undefined;
+                }
+
+                let wrapperDiv = li.closest(`.${this.wrapperClass}`)
+                this.handleListPost(wrapperDiv)
             }
         }
     }
@@ -66,26 +80,45 @@ import CommonVar from "./commonVar.js"
                 let select = currentList.querySelector('select')
                 if (select && select.children.length > 0) {
 
+                    let activeList = currentList.querySelector(`.${this.dropDownDivWrapperClass}`)?.querySelectorAll(`.active`)
                     let list = currentList.querySelector(`.${this.dropDownDivWrapperClass}`)?.querySelectorAll(`.${this.optionClass}`)
 
-                    if (list && list[select.selectedIndex]) {
-                        this.deselectAllOptions(list)
-                        list[select.selectedIndex].classList.add('selected')
-                        list[select.selectedIndex].scrollIntoView({ block: 'center' })
-                    } else {
-                        if (list.length) {
-                            this.deselectAllOptions(list)
-                            list[0].scrollIntoView({ block: 'center' })
+                    if (list) {
+
+                        this.deselectAllOptions(activeList)
+                        this.deactiveAllOptions(activeList)
+
+                        if( select.selectedIndex > 0){
+
+                            for (let i = 0; i < select.selectedOptions.length; i++) {
+                                let filterlist = currentList.querySelector(`.${this.dropDownDivWrapperClass}`)?.querySelector(`.${this.optionClass}[data-index='${select.selectedOptions[i].index}']`)
+                                if(filterlist){
+                                    filterlist.classList.add('selected')
+                                    filterlist.scrollIntoView({ block: 'center' })
+                                }
+                            }
+
+                        }else{
+                            if(list[1]){
+                                list[1].scrollIntoView({ block: 'start' })
+                            }
                         }
                     }
                 }
             } else {
                 this.prevCustom?.classList.remove('searching')
                 this.prevCustom = undefined
-
             }
         } else {
-            if ((this.prevCustom && !e.target.closest(`.${this.dropDownDivWrapperClass}`)) || e.target.closest(`.${this.optionClass}`)) {
+            if ((this.prevCustom &&
+                e.target.closest(`.${this.optionClass}`) &&
+                !e.target.closest(`.${this.wrapperClass}`)?.querySelector('select')?.multiple
+                ) ||
+                (
+                    e.target.closest(`.${this.wrapperClass}`) != this.prevCustom &&
+                    !e.target.closest(`.${this.multiSelectResetIconClass}`)
+                )
+                ) {
                 let prevCustomSelectItem = this.prevCustom?.querySelector(`.${this.dropDownDivWrapperClass}`)
                 prevCustomSelectItem?.classList.add('hidden')
                 this.prevCustom?.classList.remove('searching')
@@ -96,8 +129,9 @@ import CommonVar from "./commonVar.js"
 
     keyPress(e) {
         if (this.prevCustom) {
-            let crrLi = this.prevCustom.querySelector(`.${this.dropDownDivClass} .selected`)
+            let crrLi = this.prevCustom.querySelector(`.${this.dropDownDivClass} .active`) ? this.prevCustom.querySelector(`.${this.dropDownDivClass} .active`) : this.prevCustom.querySelector(`.${this.dropDownDivClass} .selected`)
             let listUl = this.prevCustom.querySelector(`.${this.dropDownDivClass}`)
+
             this.listSelectByKeyPress({ crrLi, listUl, e })
         }
     }
@@ -106,65 +140,76 @@ import CommonVar from "./commonVar.js"
 
         let { crrLi, listUl, e } = obj
 
-        let mySel = listUl.closest(`.${this.wrapperClass}`)
-        let reset = mySel?.querySelector('.reset-btn') ? true : false
-        let search = mySel?.querySelector('.search-input') ? true : false
+        if(listUl && e){
 
-        if (e.key == 'ArrowDown') {
-            if (listUl) {
+            let mySel = listUl.closest(`.${this.wrapperClass}`)
+            let reset = mySel?.querySelector('.reset-btn') ? true : false
+            let search = mySel?.querySelector('.search-input') ? true : false
+
+            if (e.key == 'ArrowDown') {
+
                 listUl.classList.add('key-active')
+    
+                let firstLi = listUl.children[0]
+                let nextSibl;
+    
+                if (crrLi && crrLi.nextElementSibling) {
+                    nextSibl = crrLi.nextElementSibling
+                } else {
+                    if (reset || search) {
+                        if (firstLi.nextElementSibling) {
+                            nextSibl = firstLi.nextElementSibling
+                        }
+                    } else {
+                        nextSibl = firstLi
+                    }
+                }
+    
+                crrLi?.classList.remove('active')
+                nextSibl?.classList.add('active')
+                nextSibl.scrollIntoView({ behavior: 'smooth' })
             }
-
-            let firstLi = listUl?.children[0]
-            let nextSibl;
-
-            if (crrLi && crrLi.nextElementSibling) {
-                nextSibl = crrLi.nextElementSibling
-            } else {
-                if (reset || search) {
-                    if (firstLi.nextElementSibling) {
-                        nextSibl = firstLi.nextElementSibling
+            if (e.key == 'ArrowUp') {
+    
+                listUl.classList.add('key-active')
+    
+                let prevSibl;
+                let lastLi = listUl?.children[listUl?.children.length - 1]
+    
+                if (crrLi && crrLi.previousElementSibling) {
+                    if ((reset || search) && [...listUl?.children]?.indexOf(crrLi.previousElementSibling) == 0) {
+                        prevSibl = lastLi
+                    } else {
+                        prevSibl = crrLi.previousElementSibling
                     }
                 } else {
-                    nextSibl = firstLi
-                }
-            }
-
-            crrLi?.classList.remove('selected')
-            nextSibl?.classList.add('selected')
-
-            nextSibl.scrollIntoView({ behavior: 'smooth' })
-        }
-        if (e.key == 'ArrowUp') {
-
-            if (listUl) {
-                listUl.classList.add('key-active')
-            }
-
-            let prevSibl;
-            let lastLi = listUl?.children[listUl?.children.length - 1]
-
-            if (crrLi && crrLi.previousElementSibling) {
-                if ((reset || search) && [...listUl?.children]?.indexOf(crrLi.previousElementSibling) == 0) {
                     prevSibl = lastLi
-                } else {
-                    prevSibl = crrLi.previousElementSibling
                 }
-            } else {
-                prevSibl = lastLi
+    
+                crrLi?.classList.remove('active')
+                prevSibl?.classList.add('active')
+    
+                prevSibl.scrollIntoView({ behavior: 'smooth', block: 'end' })
             }
+    
+            if (e.key == 'Enter') {
+                this.prevCustom?.classList.remove('searching')
+                if(this.prevCustom?.querySelector('select') && this.prevCustom?.querySelector('select').multiple){
+    
+                    let index = crrLi.dataset['index']
+                    let select = listUl.closest(`.${this.wrapperClass}`)?.querySelector('select')
 
-            crrLi?.classList.remove('selected')
-            prevSibl?.classList.add('selected')
+                    this.selectMultiple({index,listUl,select})
+    
+                }else{
+                    this.selectOption(crrLi)
+                    this.prevCustom = undefined;
+                }
 
-            prevSibl.scrollIntoView({ behavior: 'smooth', block: 'end' })
+                this.handleListPost(this.prevCustom)
+            }
         }
 
-        if (e.key == 'Enter') {
-            this.prevCustom?.classList.remove('searching')
-            this.selectOption(crrLi)
-            this.prevCustom = undefined;
-        }
     }
 }
 

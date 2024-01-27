@@ -3,8 +3,6 @@
 }
 
 .my-select-js {
-    min-width: 150px;
-    max-width: 200px;
     position: relative;
     margin: 0 16px;
     width: 100%;
@@ -17,7 +15,9 @@
         top: calc(100% + 4px);
         z-index: 20;
         left: 0;
+        white-space: nowrap;
         min-width: 100%;
+        width: auto;
 
         & .list-ul{
             border: 1px solid blue;
@@ -30,9 +30,13 @@
                 font-size: 14px;
             }
     
-            & .custom-list.selected {
-                background: blue;
+            & .custom-list.active {
+                background: blue !important;
                 color: white;
+            }
+
+            & .custom-list.selected {
+                background: rgb(212, 212, 212);
             }
         }
 
@@ -83,6 +87,25 @@
         border: 1px solid gray;
         padding: 8px 12px;
         padding-right: 36px;
+        display: flex;
+        flex-wrap: wrap;
+
+        & .multi-selected-option{
+            margin-right: 16px;
+            display: flex;
+            /* align-items: center; */
+
+            & .multi-select-reset-icon{
+                width: 12px;
+                height: 12px;
+                margin-right: 6px;
+            }
+
+            & .multi-select-reset-icon:hover{
+                color: red;
+            }
+        }
+
     }
 
     & .arrow-down {
