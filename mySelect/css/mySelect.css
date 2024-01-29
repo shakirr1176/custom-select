@@ -19,10 +19,21 @@
         min-width: 100%;
         width: auto;
 
+        & .list-ul:not(.key-active){
+            overflow-y: auto;
+        }
+
+        & .key-active{
+            overflow: hidden;
+        }
+    
+        & .key-active .custom-list {
+            cursor: none !important;
+        }
+
         & .list-ul{
             border: 1px solid blue;
             max-height: 214px;
-            overflow-y: auto;
     
             & .custom-list {
                 padding: 8px 16px;
@@ -100,10 +111,11 @@
                 height: 12px;
                 margin-right: 6px;
             }
+        }
 
-            & .multi-select-reset-icon:hover{
-                color: red;
-            }
+        & .multi-selected-option.active{
+            color: red;
+            transition: all 100ms linear;
         }
 
     }
@@ -141,10 +153,6 @@
     &.disable {
         opacity: 0.5;
         pointer-events: none;
-    }
-
-    & .key-active .custom-list {
-        cursor: none !important;
     }
 }
 

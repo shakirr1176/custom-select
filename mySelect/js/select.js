@@ -24,9 +24,9 @@ export class TurnIntoCustom extends CommonVar {
                         }
                     }
                 }
-                
+
                 if (entries[0] && entries[0].type == 'childList') {
-                    
+
                     let select = entries[0].target
 
                     if (select) {
@@ -41,7 +41,7 @@ export class TurnIntoCustom extends CommonVar {
                         let lists = '';
 
                         let isSelected = false
-                        
+
                         if (select.children.length > 0) {
                             for (let i = 0; i < select.children.length; i++) {
                                 lists += `<li class="${this.optionClass} ${select.children[i].selected ? 'selected' : ''}">${select.children[i].innerHTML}</li>`
@@ -62,13 +62,13 @@ export class TurnIntoCustom extends CommonVar {
 
     declaration(wrapper, option) {
         this.wrapper = wrapper
-        
+
         this.multiple = option && option.multiple ? option.multiple : false
         this.noDataMsg = option && option.noDataMsg ? option.noDataMsg : 'no data'
         this.noDataClass = option && option.noDataClass ? option.noDataClass : 'no-data'
         this.defaultSelectedText = option && option.defaultSelectedText ? option.defaultSelectedText : (this.madeOption(this.wrapper).defText ? this.madeOption(this.wrapper).defText : 'select')
         this.options = option && option.options ? option.options : this.madeOption(this.wrapper).convertedOption
-        this.searhIcon = option && option.searhIcon ? option.searhIcon : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        this.searchIcon = option && option.searchIcon ? option.searchIcon : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
       </svg>`
 
@@ -76,7 +76,7 @@ export class TurnIntoCustom extends CommonVar {
         this.placeholder = option && option.placeholder ? option.placeholder : 'Search'
         this.observe = option && option.observe == false && this.search == false ? false : true
         this.onChange = option && option.onLoad;
-        this.reset = option && option.reset  ? option.reset : this.search ? this.search : false
+        this.reset = option && option.reset ? option.reset : this.search ? this.search : false
         this.resetIcon = option && option.resetIcon ? option.resetIcon : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`
         this.icon = option && option.icon ? option.icon : `<svg xmlns="htfirstLitp://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>`
     }
@@ -86,7 +86,7 @@ export class TurnIntoCustom extends CommonVar {
         if (this.options && this.options.length > 0) {
             let select = this.wrapper?.querySelector('select')
             if (select) {
-                if(select.multiple){
+                if (select.multiple) {
                     this.multiple = true
                 }
                 select.innerHTML = `<option>${this.defaultSelectedText}</option>`
@@ -117,7 +117,7 @@ export class TurnIntoCustom extends CommonVar {
         let defText;
 
         if (opts.length) {
-            convertedOption = opts.map((opt,i) => {
+            convertedOption = opts.map((opt, i) => {
                 return {
                     'value': opt.value,
                     'title': opt.innerHTML,
@@ -170,7 +170,7 @@ export class TurnIntoCustom extends CommonVar {
                     this.selectOption(firstLi)
 
                     let selectedDiv = customSelect.querySelectorAll(`.${this.optionClass}.selected`)
-                    selectedDiv?.forEach(el=> el.classList.remove('selected'))
+                    selectedDiv?.forEach(el => el.classList.remove('selected'))
 
                     if (customSelect.querySelector(`.${this.searchInputClass}`)) {
                         customSelect.querySelector(`.${this.searchInputClass}`).value = ''
@@ -183,9 +183,9 @@ export class TurnIntoCustom extends CommonVar {
     }
 
     buildList(lists, cus) {
-        if(!cus) return
+        if (!cus) return
 
-        // cus?.classList.add('searching')
+        cus.classList.add('searching')
 
         let listUlWrapper = cus.querySelector(`.${this.dropDownDivWrapperClass}`)
         let listUl = cus.querySelector(`.${this.dropDownDivClass}`)
@@ -202,9 +202,9 @@ export class TurnIntoCustom extends CommonVar {
         listUl.innerHTML = allOption
 
         for (let i = 0; i < select.selectedOptions.length; i++) {
-            let filterlist = cus.querySelector(`.${this.dropDownDivWrapperClass}`)?.querySelector(`.${this.optionClass}[data-index='${select.selectedOptions[i].index}']`)
-            if(filterlist){
-                filterlist.classList.add('selected')
+            let filterList = cus.querySelector(`.${this.dropDownDivWrapperClass}`)?.querySelector(`.${this.optionClass}[data-index='${select.selectedOptions[i].index}']`)
+            if (filterList) {
+                filterList.classList.add('selected')
             }
         }
 
@@ -233,8 +233,8 @@ export class TurnIntoCustom extends CommonVar {
         if (!customSelect.querySelector(`.${this.dropDownDivClass}`)) {
             if (this.options && this.options.length > 0) {
 
-                this.options.forEach((el,i)=>{
-                    el.index = i+1
+                this.options.forEach((el, i) => {
+                    el.index = i + 1
                 })
 
                 let select = customSelect?.querySelector('select')
@@ -281,7 +281,13 @@ export class TurnIntoCustom extends CommonVar {
                 let selectedIndex = [];
                 let lists = ''
 
-                lists = `<li data-index="0" class="${this.optionClass}">${this.defaultSelectedText}</li>`
+                let isHidden = '';
+
+                if(this.multiple){
+                    isHidden = 'hidden'
+                }
+
+                lists = `<li data-index="0" class="${this.optionClass} ${isHidden}">${this.defaultSelectedText}</li>`
 
                 for (let i = 0; i < this.options.length; i++) {
 
@@ -289,9 +295,9 @@ export class TurnIntoCustom extends CommonVar {
 
                     if (this.options[i].selected) {
                         hasSelected = true
-                        if(this.multiple){
+                        if (this.multiple) {
                             selectedIndex.push(this.options[i].index)
-                        }else{
+                        } else {
                             selectedIndex = [this.options[i].index]
                         }
                     }
@@ -306,10 +312,10 @@ export class TurnIntoCustom extends CommonVar {
                 if (!hasSelected) {
                     selectedLi = [listUl.children[0]]
                 } else {
-                    if(this.multiple){
-                        selectedLi = selectedIndex.map(el=>listUl.children[el])
-                    }else{
-                        selectedLi = [listUl.children[selectedIndex[selectedIndex.length-1]]]
+                    if (this.multiple) {
+                        selectedLi = selectedIndex.map(el => listUl.children[el])
+                    } else {
+                        selectedLi = [listUl.children[selectedIndex[selectedIndex.length - 1]]]
                     }
                 }
 
@@ -319,7 +325,7 @@ export class TurnIntoCustom extends CommonVar {
                 if (this.search) {
                     let div = document.createElement('div')
                     div.className = this.searchInputClass + '-div'
-                    div.innerHTML = `<span class="search-icon">${this.searhIcon}</span>`
+                    div.innerHTML = `<span class="search-icon">${this.searchIcon}</span>`
                     let inp = document.createElement('input')
                     inp.className = this.searchInputClass
                     inp.oninput = () => this.doSearch({ customSelect, inp, value: inp.value })
@@ -330,19 +336,20 @@ export class TurnIntoCustom extends CommonVar {
 
                 listWrapper.appendChild(listUl)
                 customSelect.prepend(listWrapper)
-                if(this.multiple){
+                if (this.multiple) {
                     listWrapper.classList.add('hidden')
-                    if(selectedDiv.innerHTML == ''){
+
+                    if (selectedDiv.innerHTML == '') {
                         selectedDiv.innerHTML = listUl.children[0].innerHTML
                         let resetBtn = customSelect.querySelector('.reset-btn');
                         resetBtn?.classList.add('hidden')
                     }
-                    
-                    selectedIndex.forEach(index=>{
-                        this.selectMultiple({index,listUl,select})
+
+                    selectedIndex.forEach(index => {
+                        this.selectMultiple({ index, listUl, select })
                     })
-                }else{
-                    this.selectOption(selectedLi[selectedLi.length-1])
+                } else {
+                    this.selectOption(selectedLi[selectedLi.length - 1])
                 }
             }
 

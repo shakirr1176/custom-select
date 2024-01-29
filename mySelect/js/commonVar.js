@@ -55,9 +55,9 @@ class CommonVar {
 
             let select = customSelect.querySelector('select');
 
-            // if (!customSelect.classList.contains('searching')) {
+            if (!customSelect.classList.contains('searching')) {
                 listWrapper.classList.add('hidden');
-            // }
+            }
 
             if (typeof this.onChange === 'function') {
                 this.onChange(select);
@@ -92,36 +92,24 @@ class CommonVar {
             if (oldSelected) {
                 oldSelected.remove()
             } else {
-                
+
                 if(selectedDiv.innerHTML == options[0].innerHTML){
                     selectedDiv.innerHTML = ''
                 }
 
-                let span = document.createElement('span')
-                span.className = `multi-selected-option multi-selected-option-${index}`
-
-                let multiCancelIconDiv = document.createElement('span')
-                multiCancelIconDiv.className = this.multiSelectResetIconClass
-                multiCancelIconDiv.innerHTML = this.multiCancelIcon
-                multiCancelIconDiv.onclick = ()=> this.removeMultiSelectedOption(span,index)
-                span.appendChild(multiCancelIconDiv)
-
-                let textSpan = document.createElement('span')
-
-                if(allLi){
-                    textSpan.innerHTML = allLi.innerHTML
+                if(select.selectedOptions.length > 4){
+                    selectedDiv.innerHTML = `<div class="count-selected" style="text-align:center; width: 100%">Selected ${select.selectedOptions.length}</div>`
+                }else{
+                    selectedDiv.innerHTML = ''
+                    for (let i = 0; i < select.selectedOptions.length; i++) {
+                        this.appendOptionInSelectedFiv(select.selectedOptions[i].index,selectedDiv,options)
+                    }
                 }
-
-                span.appendChild(textSpan)
-
-                selectedDiv.appendChild(span)
 
                 resetBtn?.classList.remove('hidden')
             }
-            
-            let lastestAllLi = select.selectedOptions
-            
-            if(lastestAllLi.length == 0){
+
+            if(select.selectedOptions.length == 0){
                 selectedDiv.innerHTML = options[0].innerHTML
                 resetBtn?.classList.add('hidden')
             }
@@ -130,6 +118,33 @@ class CommonVar {
                 this.onChange(select);
             }
         }
+    }
+
+    appendOptionInSelectedFiv (index,selectedDiv,options){
+
+        let span = document.createElement('span')
+
+        span.className = `multi-selected-option multi-selected-option-${index}`
+
+        let multiCancelIconDiv = document.createElement('span')
+        multiCancelIconDiv.className = this.multiSelectResetIconClass
+        multiCancelIconDiv.innerHTML = this.multiCancelIcon
+        multiCancelIconDiv.onclick = ()=> this.removeMultiSelectedOption(span,index)
+        multiCancelIconDiv.onmouseover = ()=> span.classList.add('active')
+        multiCancelIconDiv.onmouseleave = ()=> span.classList.remove('active')
+        span.appendChild(multiCancelIconDiv)
+
+        let textSpan = document.createElement('span')
+
+        let curSllLi = options[index]
+
+        if(curSllLi){
+            textSpan.innerHTML = curSllLi.innerHTML
+        }
+
+        span.appendChild(textSpan)
+
+        selectedDiv.appendChild(span)
     }
 
     deselectAllOptions(list) {
