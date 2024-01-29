@@ -55,9 +55,9 @@ class CommonVar {
 
             let select = customSelect.querySelector('select');
 
-            if (!customSelect.classList.contains('searching')) {
+            // if (!customSelect.classList.contains('searching')) {
                 listWrapper.classList.add('hidden');
-            }
+            // }
 
             if (typeof this.onChange === 'function') {
                 this.onChange(select);
@@ -125,13 +125,17 @@ class CommonVar {
                 selectedDiv.innerHTML = options[0].innerHTML
                 resetBtn?.classList.add('hidden')
             }
+
+            if (typeof this.onChange === 'function') {
+                this.onChange(select);
+            }
         }
     }
 
     deselectAllOptions(list) {
         list?.forEach(opt => opt.classList.remove('selected'));
     }
-    deactiveAllOptions(list) {
+    deActiveAllOptions(list) {
         list?.forEach(opt => opt.classList.remove('active'));
     }
 
@@ -163,19 +167,19 @@ class CommonVar {
         let listUl = wrapper?.querySelector(`.${this.dropDownDivClass}`)
 
         let options = select?.querySelectorAll('option')
-        let allLi = listUl?.querySelectorAll(`.${this.optionClass}`)
+        let allLi = listUl?.querySelector(`.${this.optionClass}[data-index='${index}']`)
 
         if(options[index]){
             options[index].selected = false
         }
-        
-        allLi[index]?.classList.remove('selected')
+
+        allLi?.classList.remove('selected')
 
         div.remove()
 
         let selectedDiv = wrapper.querySelector('.selected-div')
         if(selectedDiv.innerHTML == ''){
-            selectedDiv.innerHTML = allLi[0].innerHTML
+            selectedDiv.innerHTML = options[0].innerHTML
         }
 
         if(select && select.selectedOptions.length == 0){

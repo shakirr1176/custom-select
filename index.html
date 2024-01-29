@@ -104,12 +104,15 @@
         let oldSe = document.querySelectorAll('.custom-select')
         
         oldSe.forEach(el => {
-            let aa = new TurnIntoCustom(el)
+            let aa = new TurnIntoCustom(el,{
+                // reset: true,
+                search: true
+            })
         })
 
-        customSelect.onChange = (select) => {
-            // console.log(select.value);
-        }
+        // customSelect.onChange = (select) => {
+        //     console.log(select.selectedOptions);
+        // }
 
         let mySelect = document.querySelector('.cus-select')
 
@@ -118,11 +121,8 @@
             placeholder: 'Search',
             // reset: true,
             defaultSelectedText: 'select country',
-            // options: selectedCountry,
+            options: selectedCountry,
             resetIcon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`,
-            onLoad: (select) => {
-                // console.log(select);
-            }
         });
 
         let addSelect = document.querySelector('.add-select')

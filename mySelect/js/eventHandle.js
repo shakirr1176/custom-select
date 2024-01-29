@@ -12,7 +12,7 @@ class EventHandle extends CommonVar {
         document.addEventListener('mouseover', this.hoverOnList.bind(this))
         document.addEventListener('mousemove', this.removePointerEvent.bind(this))
         window.addEventListener('click', this.selectOptionWithEvent.bind(this))
-        window.addEventListener('click', this.dropDown.bind(this))
+        window.addEventListener('click', this.dropDown.bind(this),true)
         document.addEventListener('keydown', this.keyPress.bind(this))
     }
 
@@ -46,11 +46,11 @@ class EventHandle extends CommonVar {
             if (li && select) {
                 if (select.multiple == true) {
                     let index = li.dataset['index']
-                    let listUl = li.closest(`.${this.wrapperClass}`)?.querySelector(`.${this.dropDownDivClass}`)
-                    
+                    let listUl = this.prevCustom.querySelector(`.${this.dropDownDivClass}`)
+
                     this.selectMultiple({ index, listUl, select })
                 } else {
-                    this.prevCustom?.classList.remove('searching')
+                    // this.prevCustom?.classList.remove('searching')
                     this.selectOption(li)
                     this.prevCustom = undefined;
                 }
@@ -62,12 +62,19 @@ class EventHandle extends CommonVar {
     }
 
     dropDown(e) {
-        if (e.target.closest(`.${this.selectClass}`)) {
+
+        if(e.target.closest(`.${this.multiSelectResetIconClass}`) &&
+         e.target.closest(`.${this.multiSelectResetIconClass}`).closest(`.${this.wrapperClass}`) == this.prevCustom
+         ) return
+
+        if (e.target.closest(`.${this.selectClass}`) && !e.target.closest(`.${this.multiSelectResetIconClass}`)) {
             let currentList = e.target.closest(`.${this.wrapperClass}`)
             if (this.prevCustom) {
                 let prevCustomSelectItem = this.prevCustom.querySelector(`.${this.dropDownDivWrapperClass}`)
                 prevCustomSelectItem?.classList.add('hidden')
             }
+
+
 
             if (currentList && currentList.querySelector('select') && !currentList.querySelector('select').disabled && this.prevCustom != currentList) {
                 let currentListItem = currentList.querySelector(`.${this.dropDownDivWrapperClass}`)
@@ -86,15 +93,15 @@ class EventHandle extends CommonVar {
                     if (list) {
 
                         this.deselectAllOptions(activeList)
-                        this.deactiveAllOptions(activeList)
+                        this.deActiveAllOptions(activeList)
 
                         if( select.selectedIndex > 0){
 
                             for (let i = 0; i < select.selectedOptions.length; i++) {
-                                let filterlist = currentList.querySelector(`.${this.dropDownDivWrapperClass}`)?.querySelector(`.${this.optionClass}[data-index='${select.selectedOptions[i].index}']`)
-                                if(filterlist){
-                                    filterlist.classList.add('selected')
-                                    filterlist.scrollIntoView({ block: 'center' })
+                                let filterList = currentList.querySelector(`.${this.dropDownDivWrapperClass}`)?.querySelector(`.${this.optionClass}[data-index='${select.selectedOptions[i].index}']`)
+                                if(filterList){
+                                    filterList.classList.add('selected')
+                                    filterList.scrollIntoView({ block: 'center' })
                                 }
                             }
 
@@ -106,7 +113,7 @@ class EventHandle extends CommonVar {
                     }
                 }
             } else {
-                this.prevCustom?.classList.remove('searching')
+                // this.prevCustom?.classList.remove('searching')
                 this.prevCustom = undefined
             }
         } else {
@@ -115,13 +122,12 @@ class EventHandle extends CommonVar {
                 !e.target.closest(`.${this.wrapperClass}`)?.querySelector('select')?.multiple
                 ) ||
                 (
-                    e.target.closest(`.${this.wrapperClass}`) != this.prevCustom &&
-                    !e.target.closest(`.${this.multiSelectResetIconClass}`)
+                    e.target.closest(`.${this.wrapperClass}`) != this.prevCustom
                 )
                 ) {
                 let prevCustomSelectItem = this.prevCustom?.querySelector(`.${this.dropDownDivWrapperClass}`)
                 prevCustomSelectItem?.classList.add('hidden')
-                this.prevCustom?.classList.remove('searching')
+                // this.prevCustom?.classList.remove('searching')
                 this.prevCustom = undefined
             }
         }
@@ -131,7 +137,7 @@ class EventHandle extends CommonVar {
         if (this.prevCustom) {
             let crrLi = this.prevCustom.querySelector(`.${this.dropDownDivClass} .active`) ? this.prevCustom.querySelector(`.${this.dropDownDivClass} .active`) : this.prevCustom.querySelector(`.${this.dropDownDivClass} .selected`)
             let listUl = this.prevCustom.querySelector(`.${this.dropDownDivClass}`)
-
+            
             this.listSelectByKeyPress({ crrLi, listUl, e })
         }
     }
@@ -167,6 +173,7 @@ class EventHandle extends CommonVar {
     
                 crrLi?.classList.remove('active')
                 nextSibl?.classList.add('active')
+
                 nextSibl.scrollIntoView({ behavior: 'smooth' })
             }
             if (e.key == 'ArrowUp') {
@@ -193,7 +200,7 @@ class EventHandle extends CommonVar {
             }
     
             if (e.key == 'Enter') {
-                this.prevCustom?.classList.remove('searching')
+                // this.prevCustom?.classList.remove('searching')
                 if(this.prevCustom?.querySelector('select') && this.prevCustom?.querySelector('select').multiple){
     
                     let index = crrLi.dataset['index']

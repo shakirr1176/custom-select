@@ -185,7 +185,7 @@ export class TurnIntoCustom extends CommonVar {
     buildList(lists, cus) {
         if(!cus) return
 
-        cus?.classList.add('searching')
+        // cus?.classList.add('searching')
 
         let listUlWrapper = cus.querySelector(`.${this.dropDownDivWrapperClass}`)
         let listUl = cus.querySelector(`.${this.dropDownDivClass}`)
@@ -337,7 +337,7 @@ export class TurnIntoCustom extends CommonVar {
                         let resetBtn = customSelect.querySelector('.reset-btn');
                         resetBtn?.classList.add('hidden')
                     }
-
+                    
                     selectedIndex.forEach(index=>{
                         this.selectMultiple({index,listUl,select})
                     })
