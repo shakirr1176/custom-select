@@ -249,6 +249,7 @@ export let selectedCountry = [
     { 'value': "ZM", 'title': "Zambia" },
     { 'value': "ZW", 'title': "Zimbabwe" },
 ];
+
 export let countries = [
     { 'value': "AF", 'title': "Afghanistan" },
     { 'value': "AX", 'title': "\u00c5land Islands" },
@@ -500,3 +501,11 @@ export let countries = [
     { 'value': "ZM", 'title': "Zambia" },
     { 'value': "ZW", 'title': "Zimbabwe" },
 ];
+
+export let lang = [
+    { 'value': "html", 'title': "html" },
+    { 'value': "css", 'title': "css" },
+    { 'value': "js", 'title': "js" },
+    { 'value': "react", 'title': "react" },
+    { 'value': "vue", 'title': "vue" },
+]

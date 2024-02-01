@@ -11,6 +11,7 @@ class CommonVar {
     }
 
     selectOption(li) {
+
         let customSelect = li.closest(`.${this.wrapperClass}`);
 
         if (customSelect) {
@@ -45,7 +46,7 @@ class CommonVar {
                 let select = customSelect.querySelector('select');
 
                 if (select) {
-                    select.value = '';
+                    select.value = null;
                 }
             }
 

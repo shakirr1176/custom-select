@@ -7,7 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="./mySelect/css/mySelect.css">
 
-    
+
     <style>
         * {
             margin: 0;
@@ -41,7 +41,8 @@
             padding: 9px 16px;
             margin-right: 16px;
         }
-        .cus-select{
+
+        .cus-select {
             min-width: 150px;
             max-width: 500px;
         }
@@ -51,9 +52,10 @@
 <body>
     <div class="container">
         <div class="content">
+
             <div class="custom-select">
                 <select autocomplete="off">
-                    <!-- <option>select</option> -->
+                    <option value="">select</option>
                     <option value="1">ls 1</option>
                     <option value="2">ls 2</option>
                     <option value="3">ls 3</option>
@@ -61,9 +63,10 @@
                     <option value="5">ls 5</option>
                 </select>
             </div>
+
             <div class="custom-select">
                 <select autocomplete="off">
-                    <!-- <option>select</option> -->
+                    <option>select</option>
                     <option value="1">ls 1</option>
                     <option value="2">ls 2</option>
                     <option value="3">ls 3</option>
@@ -74,14 +77,14 @@
 
             <div class="cus-select">
                 <select multiple class="ore" autocomplete="off">
-                    <option>as</option>
+                    <option value="">select</option>
                     <option value="BD">bangladesh</option>
                     <option value="IND">india</option>
                     <option value="PAK">pakistan</option>
-                    <option selected value="BHU">bhutan</option>
+                    <option value="BHU">bhutan</option>
                     <option value="NEP">nepal</option>
                     <option value="SRI">srilanka</option>
-                    <option selected value="MAL">maldip</option>
+                    <option value="MAL">maldip</option>
                     <option value="MAY">mayanmar</option>
                     <option value="AFG">afganstan</option>
                 </select>
@@ -98,28 +101,26 @@
 
     <script type="module">
 
-        import { countries, selectedCountry } from "./country.js";
+        import { countries, selectedCountry, lang } from "./country.js";
         import { TurnIntoCustom, customSelect } from "./mySelect/js/select.js";
 
         let oldSe = document.querySelectorAll('.custom-select')
-        
+
         oldSe.forEach(el => {
-            let aa = new TurnIntoCustom(el,{
+            let aa = new TurnIntoCustom(el, {
                 // reset: true,
-                // search: true
+                // search: true,
+                // defaultSelectedText: 'select',
+                // options: [...lang],
             })
         })
-
-        // customSelect.onChange = (select) => {
-        //     console.log(select.selectedOptions);
-        // }
 
         let mySelect = document.querySelector('.cus-select')
 
         let myselect = new TurnIntoCustom(mySelect, {
             search: true,
             placeholder: 'Search',
-            // reset: true,
+            reset: true,
             defaultSelectedText: 'select country',
             options: selectedCountry,
             resetIcon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`,
@@ -157,7 +158,7 @@
                     sl.disabled = true
                 }
             })
-        })
+        })      
 
         // window.addEventListener('click',()=>{
         //     console.log(mySelect.querySelector('select').selectedOptions);
