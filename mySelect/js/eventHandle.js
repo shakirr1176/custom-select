@@ -96,19 +96,11 @@ class EventHandle extends CommonVar {
                         this.deselectAllOptions(activeList)
                         this.deActiveAllOptions(activeList)
 
-                        if( select.selectedIndex > 0){
-
-                            for (let i = 0; i < select.selectedOptions.length; i++) {
-                                let filterList = currentList.querySelector(`.${this.dropDownDivWrapperClass}`)?.querySelector(`.${this.optionClass}[data-index='${select.selectedOptions[i].index}']`)
-                                if(filterList){
-                                    filterList.classList.add('selected')
-                                    filterList.scrollIntoView({ block: 'center' })
-                                }
-                            }
-
-                        }else{
-                            if(list[1]){
-                                list[1].scrollIntoView({ block: 'start' })
+                        for (let i = 0; i < select.selectedOptions.length; i++) {
+                            let filterList = currentList.querySelector(`.${this.dropDownDivWrapperClass}`)?.querySelector(`.${this.optionClass}[data-index='${select.selectedOptions[i].index}']`)
+                            if(filterList){
+                                filterList.classList.add('selected')
+                                filterList.scrollIntoView({ block: 'center' })
                             }
                         }
                     }
@@ -161,13 +153,7 @@ class EventHandle extends CommonVar {
                 if (crrLi && crrLi.nextElementSibling) {
                     nextSibl = crrLi.nextElementSibling
                 } else {
-                    if (reset || search) {
-                        if (firstLi.nextElementSibling) {
-                            nextSibl = firstLi.nextElementSibling
-                        }
-                    } else {
-                        nextSibl = firstLi
-                    }
+                    nextSibl = firstLi
                 }
     
                 crrLi?.classList.remove('active')
@@ -184,11 +170,7 @@ class EventHandle extends CommonVar {
                 let lastLi = listUl?.children[listUl?.children.length - 1]
     
                 if (crrLi && crrLi.previousElementSibling) {
-                    if ((reset || search) && [...listUl?.children]?.indexOf(crrLi.previousElementSibling) == 0) {
-                        prevSibl = lastLi
-                    } else {
-                        prevSibl = crrLi.previousElementSibling
-                    }
+                    prevSibl = crrLi.previousElementSibling
                 } else {
                     prevSibl = lastLi
                 }

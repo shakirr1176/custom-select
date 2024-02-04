@@ -53,9 +53,8 @@
     <div class="container">
         <div class="content">
 
-            <div class="custom-select">
+            <div class="custom-select1">
                 <select autocomplete="off">
-                    <option value="">select</option>
                     <option value="1">ls 1</option>
                     <option value="2">ls 2</option>
                     <option value="3">ls 3</option>
@@ -64,33 +63,35 @@
                 </select>
             </div>
 
-            <div class="custom-select">
+            <div class="custom-select2">
                 <select autocomplete="off">
-                    <option>select</option>
                     <option value="1">ls 1</option>
-                    <option value="2">ls 2</option>
+                    <option selected value="2">ls 2</option>
                     <option value="3">ls 3</option>
                     <option value="4">ls 4</option>
                     <option value="5">ls 5</option>
+                </select>
+            </div>
+
+            <div class="custom-select3">
+                <select autocomplete="off">
+                    <option selected value="1">active</option>
+                    <option value="0">inactive</option>
                 </select>
             </div>
 
             <div class="cus-select">
-                <select multiple class="ore" autocomplete="off">
-                    <option value="">select</option>
-                    <option value="BD">bangladesh</option>
-                    <option value="IND">india</option>
-                    <option value="PAK">pakistan</option>
-                    <option value="BHU">bhutan</option>
-                    <option value="NEP">nepal</option>
+                <select class="ore" autocomplete="off">
+                    <!-- <option value="BD">bangladesh</option>
+                    <option selected value="IND">india</option>
+                    <option selected value="PAK">pakistan</option>
+                    <option selected value="BHU">bhutan</option>
+                    <option selected value="NEP">nepal</option>
                     <option value="SRI">srilanka</option>
-                    <option value="MAL">maldip</option>
+                    <option selected value="MAL">maldip</option>
                     <option value="MAY">mayanmar</option>
-                    <option value="AFG">afganstan</option>
+                    <option value="AFG">afganstan</option> -->
                 </select>
-            </div>
-            <div>
-                <button class="com-btn disable-select">disable</button>
             </div>
             <div>
                 <button class="com-btn add-select">add new select</button>
@@ -104,29 +105,48 @@
         import { countries, selectedCountry, lang } from "./country.js";
         import { TurnIntoCustom, customSelect } from "./mySelect/js/select.js";
 
-        let oldSe = document.querySelectorAll('.custom-select')
+        let customSelect1 = document.querySelector('.custom-select1')
+        let customSelect2 = document.querySelector('.custom-select2')
+        let customSelect3 = document.querySelector('.custom-select3')
 
-        oldSe.forEach(el => {
-            let aa = new TurnIntoCustom(el, {
-                // reset: true,
-                // search: true,
-                // defaultSelectedText: 'select',
-                // options: [...lang],
-            })
+        let aa1 = new TurnIntoCustom(customSelect1)
+        let aa2 = new TurnIntoCustom(customSelect2, {
+            search: true
         })
+
+        let aa3 = new TurnIntoCustom(customSelect3)
+
+        customSelect.onChange = (select) => {
+            // console.log(select.selectedOptions);
+        }
 
         let mySelect = document.querySelector('.cus-select')
 
         let myselect = new TurnIntoCustom(mySelect, {
+
+            multiple: true,
             search: true,
-            placeholder: 'Search',
             reset: true,
-            defaultSelectedText: 'select country',
+            placeholder: 'Search country',
+            default_selected_text: 'select country',
             options: selectedCountry,
-            resetIcon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`,
+            search_type: 'similar',
+            show_option: 6,
+            search_icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>`,
+
+            observe : true,
+
+            reset_icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"     stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`,
+
+            drop_down_icon: `<svg xmlns="htfirstLitp://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>`,
+
+            no_Data_Msg : 'no country found'
         });
 
         let addSelect = document.querySelector('.add-select')
+        let content = document.querySelector('.content')
 
         addSelect.addEventListener('click', () => {
             let DIV = document.createElement('div')
@@ -136,33 +156,14 @@
 
             let nwwSelect = new TurnIntoCustom(DIV, {
                 search: true,
-                placeholder: 'Search',
-                observe: true,
-                reset: true,
-                defaultSelectedText: 'select country',
                 options: countries,
-                resetIcon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`,
             });
         })
-
-        let disableSelect = document.querySelector('.disable-select')
-        let content = document.querySelector('.content')
-
-        disableSelect.addEventListener('click', () => {
-            let mySelect = document.querySelectorAll('.cus-select')
-            mySelect.forEach(el => {
-                let sl = el.querySelector('select')
-                if (sl.disabled) {
-                    sl.disabled = false
-                } else {
-                    sl.disabled = true
-                }
-            })
-        })      
 
         // window.addEventListener('click',()=>{
         //     console.log(mySelect.querySelector('select').selectedOptions);
         // })
+
     </script>
 </body>
 

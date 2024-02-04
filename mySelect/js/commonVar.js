@@ -6,7 +6,7 @@ class CommonVar {
         this.dropDownDivWrapperClass = 'list-wrapper'
         this.dropDownDivClass = 'list-ul',
         this.optionClass = 'custom-list'
-        this.multiSelectResetIconClass = 'multi-select-reset-icon'
+        this.multiSelectResetIconClass = 'multi-select-reset-icon',
         this.multiCancelIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`
     }
 
@@ -21,34 +21,15 @@ class CommonVar {
             let resetBtn = customSelect.querySelector('.reset-btn');
             let activeLi = listUl.querySelector('.selected')
 
-            let selectElement = customSelect.querySelector('select');
-            let selectedOption = selectElement.options[selectElement.selectedIndex]
-
             activeLi?.classList.remove('selected')
-
-            if(selectedOption){
-                selectedOption.selected = false
-            }
 
             let indexOfli = li.dataset['index'];
 
-            if(indexOfli > 0){
-                opts[indexOfli].selected = true;
-            }
+            opts[indexOfli].selected = true;
 
             li?.classList.add('selected');
-            
+
             resetBtn?.classList.remove('hidden');
-
-            if (indexOfli == 0 && (opts[0] && (opts[0].getAttribute('value') == null || opts[0].getAttribute('value') == ''))) {
-                li?.classList.remove('selected');
-                resetBtn?.classList.add('hidden');
-                let select = customSelect.querySelector('select');
-
-                if (select) {
-                    select.value = null;
-                }
-            }
 
             let selectedDiv = customSelect.querySelector(`.${this.selectClass}`);
 
@@ -83,9 +64,9 @@ class CommonVar {
             allLi?.classList.toggle('selected')
 
             let selectedDiv = wrapper?.querySelector(`.${this.selectClass}`)
-
+            let showOption = +selectedDiv.dataset['showOption']
             if(selectedDiv.innerHTML == ''){
-                selectedDiv.innerHTML = options[0].innerHTML
+                selectedDiv.innerHTML = wrapper.dataset['default_selected_text']
             }
 
             let oldSelected = selectedDiv.querySelector(`.multi-selected-option-${index}`)
@@ -93,17 +74,16 @@ class CommonVar {
             if (oldSelected) {
                 oldSelected.remove()
             } else {
-
-                if(selectedDiv.innerHTML == options[0].innerHTML){
+                if(selectedDiv.innerHTML == wrapper.dataset['default_selected_text']){
                     selectedDiv.innerHTML = ''
                 }
 
-                if(select.selectedOptions.length > 4){
+                if(select.selectedOptions.length > showOption){
                     selectedDiv.innerHTML = `<div class="count-selected" style="text-align:center; width: 100%">Selected ${select.selectedOptions.length}</div>`
                 }else{
                     selectedDiv.innerHTML = ''
                     for (let i = 0; i < select.selectedOptions.length; i++) {
-                        this.appendOptionInSelectedFiv(select.selectedOptions[i].index,selectedDiv,options)
+                        this.appendOptionInSelectedDiv(select.selectedOptions[i].index,selectedDiv,options)
                     }
                 }
 
@@ -111,7 +91,7 @@ class CommonVar {
             }
 
             if(select.selectedOptions.length == 0){
-                selectedDiv.innerHTML = options[0].innerHTML
+                selectedDiv.innerHTML = wrapper.dataset['default_selected_text']
                 resetBtn?.classList.add('hidden')
             }
 
@@ -121,13 +101,14 @@ class CommonVar {
         }
     }
 
-    appendOptionInSelectedFiv (index,selectedDiv,options){
+    appendOptionInSelectedDiv (index,selectedDiv,options){
 
         let span = document.createElement('span')
 
         span.className = `multi-selected-option multi-selected-option-${index}`
 
         let multiCancelIconDiv = document.createElement('span')
+
         multiCancelIconDiv.className = this.multiSelectResetIconClass
         multiCancelIconDiv.innerHTML = this.multiCancelIcon
         multiCancelIconDiv.onclick = ()=> this.removeMultiSelectedOption(span,index)
@@ -177,6 +158,7 @@ class CommonVar {
     }
 
     removeMultiSelectedOption(div,index){
+
         let wrapper = div.closest(`.${this.wrapperClass}`)
         let resetBtn = wrapper.querySelector(`.reset-btn`)
         let select = wrapper?.querySelector('select')
@@ -195,7 +177,7 @@ class CommonVar {
 
         let selectedDiv = wrapper.querySelector('.selected-div')
         if(selectedDiv.innerHTML == ''){
-            selectedDiv.innerHTML = options[0].innerHTML
+            selectedDiv.innerHTML = wrapper.dataset['default_selected_text']
         }
 
         if(select && select.selectedOptions.length == 0){

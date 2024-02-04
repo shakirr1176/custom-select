@@ -10,6 +10,9 @@ export class TurnIntoCustom extends CommonVar {
     }
 
     initialize() {
+
+        if (this.wrapper == null || this.wrapper == undefined || this.wrapper.children == undefined) return
+
         this.observer = () => {
             return new MutationObserver(entries => {
 
@@ -40,8 +43,6 @@ export class TurnIntoCustom extends CommonVar {
 
                         let lists = '';
 
-                        let isSelected = false
-
                         if (select.children.length > 0) {
                             for (let i = 0; i < select.children.length; i++) {
                                 lists += `<li class="${this.optionClass} ${select.children[i].selected ? 'selected' : ''}">${select.children[i].innerHTML}</li>`
@@ -57,6 +58,7 @@ export class TurnIntoCustom extends CommonVar {
                 }
             })
         }
+
         this.wrapper?.classList.add(this.wrapperClass)
     }
 
@@ -64,24 +66,28 @@ export class TurnIntoCustom extends CommonVar {
         this.wrapper = wrapper
 
         this.multiple = option && option.multiple ? option.multiple : false
-        this.noDataMsg = option && option.noDataMsg ? option.noDataMsg : 'no data'
+        this.noDataMsg = option && option.no_Data_Msg ? option.no_Data_Msg : 'no data'
         this.noDataClass = option && option.noDataClass ? option.noDataClass : 'no-data'
-        this.defaultSelectedText = option && option.defaultSelectedText ? option.defaultSelectedText : false
-        this.options = option && option.options ? option.options : this.madeOption(this.wrapper)?.convertedOption
-        this.searchIcon = option && option.searchIcon ? option.searchIcon : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        this.defaultSelectedText = option && option.default_selected_text ? option.default_selected_text : 'select'
+        this.options = option && option.options ? [...option.options] : this.madeOption(this.wrapper)?.convertedOption
+        this.searchIcon = option && option.search_icon ? option.search_icon : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
       </svg>`
 
+        this.showOption = option && option.show_option ? option.show_option : 5 
         this.search = option && option.search ? option.search : false
+        this.searchType = option && option.search_type ? option.search_type : 'startWith'
         this.placeholder = option && option.placeholder ? option.placeholder : 'Search'
         this.observe = option && option.observe == false && this.search == false ? false : true
         this.onChange = option && option.onLoad;
         this.reset = option && option.reset ? option.reset : this.search ? this.search : false
-        this.resetIcon = option && option.resetIcon ? option.resetIcon : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`
-        this.icon = option && option.icon ? option.icon : `<svg xmlns="htfirstLitp://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>`
+        this.resetIcon = option && option.reset_icon ? option.reset_icon : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`
+        this.icon = option && option.drop_down_icon ? option.drop_down_icon : `<svg xmlns="htfirstLitp://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>`
     }
 
     draw() {
+
+        if (this.wrapper == null || this.wrapper == undefined || this.wrapper.children == undefined) return
 
         if (this.options && this.options.length > 0) {
             let select = this.wrapper?.querySelector('select')
@@ -89,17 +95,9 @@ export class TurnIntoCustom extends CommonVar {
             if (select) {
                 if (select.multiple) {
                     this.multiple = true
+                }else if(this.multiple){
+                    select.multiple = true
                 }
-
-
-                if (this.defaultSelectedText) {
-                    this.options.unshift({ 'value': "", 'title': this.defaultSelectedText })
-                } else {
-                    if (this.multiple && this.options[0].value) {
-                        this.options.unshift({ 'value': "", 'title': "Select" })
-                    }
-                }
-
             }
         }
 
@@ -110,9 +108,9 @@ export class TurnIntoCustom extends CommonVar {
 
     madeOption(wrapper) {
 
-        if (!wrapper) return
+        if (wrapper == null || wrapper == undefined || wrapper.children == undefined) return
 
-        let select = wrapper.querySelector('select')
+        let select = wrapper?.querySelector('select')
 
         if (!select) return
 
@@ -125,7 +123,7 @@ export class TurnIntoCustom extends CommonVar {
                 return {
                     'value': opt.getAttribute('value') == null ? '' : opt.value,
                     'title': opt.innerHTML,
-                    'selected': opt.selected ? true : false,
+                    'selected': opt.getAttribute('selected') != null ? true : false,
                 }
             })
         }
@@ -139,12 +137,16 @@ export class TurnIntoCustom extends CommonVar {
         if (this.observe) {
             let { customSelect, value } = obj
             if (this.options) {
-                
-                let lists = this.options.filter(data => data.index == 0 || data.title.toLowerCase().startsWith(value.toLowerCase()))
 
-                // if (this.options.length > lists.length) {
-                //     lists.unshift(this.options[0])
-                // }
+                let lists;
+
+                if(this.searchType == 'similar'){
+                    lists = this.options.filter(data => data.title.toLowerCase().includes(value.toLowerCase()))
+                }else if(this.searchType == 'exact'){
+                    lists = this.options.filter(data =>data.title.toLowerCase() === value.toLowerCase())
+                }else{
+                    lists = this.options.filter(data =>data.title.toLowerCase().startsWith(value.toLowerCase()))
+                }
 
                 this.buildList(lists, customSelect)
                 this.handleListPost(customSelect)
@@ -163,22 +165,22 @@ export class TurnIntoCustom extends CommonVar {
                 this.buildList(this.options, customSelect)
             }
 
+            select.value = ''
+
             if (customSelect && select && !select.disabled) {
+                let selectedDiv = customSelect.querySelector('.selected-div')
 
-                let firstLi = customSelect.querySelector(`.${this.optionClass}`)
+                selectedDiv.innerHTML = this.defaultSelectedText
 
-                if (firstLi) {
+                let selectedLi = customSelect.querySelectorAll(`.${this.optionClass}.selected`)
+                selectedLi?.forEach(el => el.classList.remove('selected'))
 
-                    this.selectOption(firstLi)
-
-                    let selectedDiv = customSelect.querySelectorAll(`.${this.optionClass}.selected`)
-                    selectedDiv?.forEach(el => el.classList.remove('selected'))
-
-                    if (customSelect.querySelector(`.${this.searchInputClass}`)) {
-                        customSelect.querySelector(`.${this.searchInputClass}`).value = ''
-                    }
+                if (customSelect.querySelector(`.${this.searchInputClass}`)) {
+                    customSelect.querySelector(`.${this.searchInputClass}`).value = ''
                 }
             }
+
+            resetBtn?.classList.add('hidden');
 
             this.handleListPost(customSelect)
         }
@@ -198,7 +200,7 @@ export class TurnIntoCustom extends CommonVar {
         let allOption = ``
 
         lists.forEach((opt) => {
-            allOption += `<li data-value="${opt.value}" data-index="${opt.index}" class="${this.optionClass} ${opt.isHidden ? 'hidden' : ''}">${opt.title}</li>`
+            allOption += `<li data-value="${opt.value}" data-index="${opt.index}" class="${this.optionClass}">${opt.title}</li>`
         })
 
         listUl.innerHTML = allOption
@@ -212,7 +214,7 @@ export class TurnIntoCustom extends CommonVar {
 
         let noDataDiv = listUlWrapper?.querySelector(`.${this.noDataClass}`)
 
-        if (lists.length == 0 || (lists.length == 1 && lists[0].isFirstOption)) {
+        if (lists.length == 0) {
             if (!noDataDiv) {
                 let noDataShow = document.createElement('div')
                 noDataShow.innerHTML = this.noDataMsg
@@ -236,134 +238,131 @@ export class TurnIntoCustom extends CommonVar {
             if (this.options && this.options.length > 0) {
 
                 this.options.forEach((el, i) => {
-
-                    if (i == 0 && el.value == '' && (this.multiple || this.search)) {
-                        el.isHidden = true
-                        el.isFirstOption = true
-                    }
-
                     el.index = i
                 })
 
                 let select = customSelect?.querySelector('select')
 
                 if (select) {
-
-                    select.innerHTML = ''
-
-                    let allOption = select.innerHTML
+                    let allOption = ''
                     this.options.forEach(opt => {
                         let singleOpt = `<option value="${opt.value}">${opt.title}</option>`
                         allOption += singleOpt
                     })
 
                     select.innerHTML = allOption
-                }
-            }
 
-            if (this.reset) {
-                let resetDiv = document.createElement('button')
-                resetDiv.className = 'reset-btn'
-                resetDiv.innerHTML = this.resetIcon
-                resetDiv.onclick = () => this.resetFunc(resetDiv)
-                customSelect.appendChild(resetDiv)
-            }
+                    let everyOption = [...select.children].every(el => el.getAttribute('selected') == null)
 
-            if (this.icon) {
-                let downDiv = document.createElement('span')
-                downDiv.className = 'arrow-down'
-                downDiv.innerHTML = this.icon
-                customSelect.appendChild(downDiv)
-            }
+                    if (everyOption) {
+                        select.value = ''
+                    }
 
-            let selectedDiv = document.createElement('div')
-            selectedDiv.className = this.selectClass
-            customSelect.prepend(selectedDiv)
+                    if (this.reset) {
+                        let resetDiv = document.createElement('button')
+                        resetDiv.className = 'reset-btn hidden'
+                        resetDiv.innerHTML = this.resetIcon
+                        resetDiv.onclick = () => this.resetFunc(resetDiv)
+                        customSelect.appendChild(resetDiv)
+                    }
+        
+                    if (this.icon) {
+                        let downDiv = document.createElement('span')
+                        downDiv.className = 'arrow-down'
+                        downDiv.innerHTML = this.icon
+                        customSelect.appendChild(downDiv)
+                    }
 
-            let listUl = document.createElement('ul')
-            listUl.className = this.dropDownDivClass
+                    select.classList.add('hidden')
 
-            let select = customSelect?.querySelector('select')
-            select?.classList.add('hidden')
+                    let selectedDiv = document.createElement('div')
+                    selectedDiv.className = this.selectClass
+                    selectedDiv.dataset['showOption'] = this.showOption
 
-            if (select && this.options && this.options.length > 0) {
-                let hasSelected = false;
-                let selectedLi = [];
-                let selectedIndex = [];
-                let lists = ''
+                    customSelect.dataset['default_selected_text'] = this.defaultSelectedText
 
-                for (let i = 0; i < this.options.length; i++) {
+                    if (select.value == '') {
+                        selectedDiv.innerHTML = this.defaultSelectedText
+                    }
+        
+                    customSelect.prepend(selectedDiv)
+        
+                    let listUl = document.createElement('ul')
+                    listUl.className = this.dropDownDivClass
+        
+                    if (this.options && this.options.length > 0) {
+                        let hasSelected = false;
+                        let selectedLi = [];
+                        let selectedIndex = [];
+                        let lists = ''
+                        
+                        
+                        for (let i = 0; i < this.options.length; i++) {
+                            
+                            lists += `<li data-value="${this.options[i].value}" data-index="${this.options[i].index}" class="${this.optionClass} ${this.options[i].isHidden ? 'hidden' : ''}">${this.options[i].title}</li>`
+                            
+                            if (this.options[i].selected) {
+                                hasSelected = true
+                                if (this.multiple) {
+                                    selectedIndex.push(this.options[i].index)
+                                } else {
+                                    selectedIndex = [this.options[i].index]
+                                }
+                            }
+                        }
+        
+                        listUl.innerHTML = lists
+        
+                        if (hasSelected) {
+                            if (this.multiple) {
+                                selectedLi = selectedIndex.map(el => listUl.children[el])
+                            } else {
+                                selectedLi = [listUl.children[selectedIndex[selectedIndex.length - 1]]]
+                            }
+                        }
+        
+                        let listWrapper = document.createElement('div')
+                        listWrapper.className = this.dropDownDivWrapperClass
+                        listWrapper.classList.add('hidden')
 
-                    lists += `<li data-value="${this.options[i].value}" data-index="${this.options[i].index}" class="${this.optionClass} ${this.options[i].isHidden ? 'hidden' : ''}">${this.options[i].title}</li>`
-
-                    if (this.options[i].selected) {
-                        hasSelected = true
+                        if (this.search) {
+                            let div = document.createElement('div')
+                            div.className = this.searchInputClass + '-div'
+                            div.innerHTML = `<span class="search-icon">${this.searchIcon}</span>`
+                            let inp = document.createElement('input')
+                            inp.className = this.searchInputClass
+                            inp.oninput = () => this.doSearch({ customSelect, inp, value: inp.value })
+                            inp.placeholder = this.placeholder
+                            div.appendChild(inp)
+                            listWrapper.appendChild(div)
+                        }
+        
+                        listWrapper.appendChild(listUl)
+                        customSelect.prepend(listWrapper)
+        
                         if (this.multiple) {
-                            selectedIndex.push(this.options[i].index)
+                            listWrapper.classList.add('hidden')
+                            selectedIndex.forEach(index => {
+                                this.selectMultiple({ index, listUl, select })
+                            })
                         } else {
-                            selectedIndex = [this.options[i].index]
+                            if(selectedLi.length){
+                                this.selectOption(selectedLi[selectedLi.length - 1])
+                            }
                         }
                     }
-                }
 
-                listUl.innerHTML = lists
-
-                if (!hasSelected) {
-                    selectedLi = [listUl.children[0]]
-                } else {
-                    if (this.multiple) {
-                        selectedLi = selectedIndex.map(el => listUl.children[el])
-                    } else {
-                        selectedLi = [listUl.children[selectedIndex[selectedIndex.length - 1]]]
+                    if (select.disabled) {
+                        customSelect.classList.add('disable')
+                    }
+    
+                    this.observer().disconnect()
+    
+                    if (this.observe) {
+                        this.observer().observe(select, { childList: true, attributes: true })
                     }
                 }
-
-                let listWrapper = document.createElement('div')
-                listWrapper.className = this.dropDownDivWrapperClass
-
-                if (this.search) {
-                    let div = document.createElement('div')
-                    div.className = this.searchInputClass + '-div'
-                    div.innerHTML = `<span class="search-icon">${this.searchIcon}</span>`
-                    let inp = document.createElement('input')
-                    inp.className = this.searchInputClass
-                    inp.oninput = () => this.doSearch({ customSelect, inp, value: inp.value })
-                    inp.placeholder = this.placeholder
-                    div.appendChild(inp)
-                    listWrapper.appendChild(div)
-                }
-
-                listWrapper.appendChild(listUl)
-                customSelect.prepend(listWrapper)
-
-                if (this.multiple) {
-                    listWrapper.classList.add('hidden')
-
-                    if (selectedDiv.innerHTML == '') {
-                        selectedDiv.innerHTML = listUl.children[0].innerHTML
-                        let resetBtn = customSelect.querySelector('.reset-btn');
-                        resetBtn?.classList.add('hidden')
-                    }
-
-                    selectedIndex.forEach(index => {
-                        this.selectMultiple({ index, listUl, select })
-                    })
-                } else {
-                    this.selectOption(selectedLi[selectedLi.length - 1])
-                }
-            }
-
-            if (select) {
-                if (select.disabled) {
-                    customSelect.classList.add('disable')
-                }
-
-                this.observer().disconnect()
-
-                if (this.observe) {
-                    this.observer().observe(select, { childList: true, attributes: true })
-                }
-            }
+            } 
         }
     }
 }

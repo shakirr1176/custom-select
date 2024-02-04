@@ -32,7 +32,7 @@
         }
 
         & .list-ul{
-            border: 1px solid blue;
+            border: 1px solid gray;
             max-height: 214px;
     
             & .custom-list {
@@ -54,7 +54,7 @@
         & .search-input-div {
             height: 35px;
             width: 100%;
-            border: 1px solid blue;
+            border: 1px solid gray;
             border-bottom: none;
             display: flex;
 
