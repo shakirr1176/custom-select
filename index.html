@@ -109,7 +109,10 @@
         let customSelect2 = document.querySelector('.custom-select2')
         let customSelect3 = document.querySelector('.custom-select3')
 
-        let aa1 = new TurnIntoCustom(customSelect1)
+        let aa1 = new TurnIntoCustom(customSelect1,{
+            default_selected_text: 'select s asd'
+        })
+        
         let aa2 = new TurnIntoCustom(customSelect2, {
             search: true
         })
