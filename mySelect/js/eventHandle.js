@@ -20,7 +20,6 @@ class EventHandle extends CommonVar {
         if (e.target.closest(`.${this.optionClass}`)) {
             let li = e.target.closest(`.${this.optionClass}`)
             let listUl = li.closest(`.${this.dropDownDivClass}`)
-            let list = listUl.closest(`.${this.dropDownDivClass}`).querySelectorAll(`.${this.optionClass}`)
             let activeLis = listUl?.querySelector('.active')
             if (li && !listUl.classList.contains('key-active')) {
                 activeLis?.classList.remove('active')
