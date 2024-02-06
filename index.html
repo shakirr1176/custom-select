@@ -55,6 +55,7 @@
 
             <div class="custom-select1">
                 <select autocomplete="off">
+                    <option value="">select</option>
                     <option value="1">ls 1</option>
                     <option value="2">ls 2</option>
                     <option value="3">ls 3</option>
@@ -82,21 +83,20 @@
 
             <div class="cus-select">
                 <select class="ore" autocomplete="off">
-                    <!-- <option value="BD">bangladesh</option>
-                    <option selected value="IND">india</option>
-                    <option selected value="PAK">pakistan</option>
-                    <option selected value="BHU">bhutan</option>
-                    <option selected value="NEP">nepal</option>
+                    <option value="BD">bangladesh</option>
+                    <option value="IND">india</option>
+                    <option value="PAK">pakistan</option>
+                    <option value="BHU">bhutan</option>
+                    <option value="NEP">nepal</option>
                     <option value="SRI">srilanka</option>
-                    <option selected value="MAL">maldip</option>
+                    <option value="MAL">maldip</option>
                     <option value="MAY">mayanmar</option>
-                    <option value="AFG">afganstan</option> -->
+                    <option value="AFG">afganstan</option>
                 </select>
             </div>
             <div>
                 <button class="com-btn add-select">add new select</button>
             </div>
-
         </div>
     </div>
 
@@ -110,7 +110,7 @@
         let customSelect3 = document.querySelector('.custom-select3')
 
         let aa1 = new TurnIntoCustom(customSelect1,{
-            default_selected_text: 'select s asd'
+            default_selected_text: 'select'
         })
         
         let aa2 = new TurnIntoCustom(customSelect2, {
@@ -132,7 +132,7 @@
             reset: true,
             placeholder: 'Search country',
             default_selected_text: 'select country',
-            options: selectedCountry,
+            // options: selectedCountry,
             search_type: 'similar',
             show_option: 6,
             search_icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

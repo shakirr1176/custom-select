@@ -139,10 +139,6 @@ class EventHandle extends CommonVar {
 
         if(listUl && e){
 
-            let mySel = listUl.closest(`.${this.wrapperClass}`)
-            let reset = mySel?.querySelector('.reset-btn') ? true : false
-            let search = mySel?.querySelector('.search-input') ? true : false
-
             if (e.key == 'ArrowDown') {
 
                 listUl.classList.add('key-active')
@@ -200,7 +196,6 @@ class EventHandle extends CommonVar {
                 this.handleListPost(this.prevCustom)
             }
         }
-
     }
 }
 

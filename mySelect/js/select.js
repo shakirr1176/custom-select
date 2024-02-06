@@ -39,8 +39,6 @@ export class TurnIntoCustom extends CommonVar {
 
                         let listUl = customSelect.querySelector(`.${this.dropDownDivClass}`)
 
-                        listUl.innerHTML = ''
-
                         let lists = '';
 
                         if (select.children.length > 0) {
@@ -50,10 +48,6 @@ export class TurnIntoCustom extends CommonVar {
                         }
 
                         listUl.innerHTML = lists
-
-                        if (this.reset || this.search) {
-                            listUl.children[0].classList.add('hidden')
-                        }
                     }
                 }
             })
@@ -64,7 +58,6 @@ export class TurnIntoCustom extends CommonVar {
 
     declaration(wrapper, option) {
         this.wrapper = wrapper
-
         this.multiple = option && option.multiple ? option.multiple : false
         this.noDataMsg = option && option.no_Data_Msg ? option.no_Data_Msg : 'no data'
         this.noDataClass = option && option.noDataClass ? option.noDataClass : 'no-data'
@@ -87,28 +80,30 @@ export class TurnIntoCustom extends CommonVar {
 
     draw() {
 
-        if (this.wrapper == null || this.wrapper == undefined || this.wrapper.children == undefined) return
+        this.hasRapper(this.wrapper)
 
-        if (this.options && this.options.length > 0) {
             let select = this.wrapper?.querySelector('select')
 
-            if (select) {
-                if (select.multiple) {
-                    this.multiple = true
-                }else if(this.multiple){
-                    select.multiple = true
-                }
+            if(!select) return
+
+            if (select.multiple) {
+                this.multiple = true
+            }else if(this.multiple){
+                select.multiple = true
             }
-        }
 
         if (this.wrapper) {
             this.convertToDiv(this.wrapper)
         }
     }
 
+    hasRapper(wrapper){
+        if (wrapper == null || wrapper == undefined || wrapper.children == undefined) return
+    }
+
     madeOption(wrapper) {
 
-        if (wrapper == null || wrapper == undefined || wrapper.children == undefined) return
+        this.hasRapper(wrapper)
 
         let select = wrapper?.querySelector('select')
 
@@ -244,19 +239,18 @@ export class TurnIntoCustom extends CommonVar {
                 let select = customSelect?.querySelector('select')
 
                 if (select) {
-                    let allOption = ''
-                    this.options.forEach(opt => {
-                        let singleOpt = `<option value="${opt.value}">${opt.title}</option>`
-                        allOption += singleOpt
-                    })
 
-                    select.innerHTML = allOption
-
-                    let everyOption = [...select.children].every(el => el.getAttribute('selected') == null)
-
-                    if (everyOption) {
-                        select.value = ''
+                    if(select.children.length == 0){
+                        let allOption = ''
+                        this.options.forEach(opt => {
+                            let singleOpt = `<option value="${opt.value}">${opt.title}</option>`
+                            allOption += singleOpt
+                        })
+    
+                        select.innerHTML = allOption
                     }
+
+                    select.value = ''
 
                     if (this.reset) {
                         let resetDiv = document.createElement('button')
@@ -280,10 +274,7 @@ export class TurnIntoCustom extends CommonVar {
                     selectedDiv.dataset['showOption'] = this.showOption
 
                     customSelect.dataset['default_selected_text'] = this.defaultSelectedText
-
-                    if (select.value == '') {
-                        selectedDiv.innerHTML = this.defaultSelectedText
-                    }
+                    selectedDiv.innerHTML = this.defaultSelectedText
         
                     customSelect.prepend(selectedDiv)
         
@@ -295,7 +286,6 @@ export class TurnIntoCustom extends CommonVar {
                         let selectedLi = [];
                         let selectedIndex = [];
                         let lists = ''
-                        
                         
                         for (let i = 0; i < this.options.length; i++) {
                             
