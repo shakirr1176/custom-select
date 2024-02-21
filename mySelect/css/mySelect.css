@@ -8,152 +8,238 @@
     width: 100%;
     height: fit-content;
     cursor: pointer;
+}
 
-    & .list-wrapper {
-        background: white;
-        position: absolute;
-        top: calc(100% + 4px);
-        z-index: 20;
-        left: 0;
-        white-space: nowrap;
-        min-width: 100%;
-        width: auto;
+.my-select-js .list-wrapper {
+    background: var(--list-wrapper-bg);
+    position: absolute;
+    top: calc(100% + 4px);
+    z-index: 20;
+    left: 0;
+    white-space: nowrap;
+    min-width: 100%;
+    width: auto;
+}
 
-        & .list-ul:not(.key-active){
-            overflow-y: auto;
-        }
+.dark .my-select-js .list-wrapper {
+    background: var(--list-wrapper-bg-dark);
+}
 
-        & .key-active{
-            overflow: hidden;
-        }
-    
-        & .key-active .custom-list {
-            cursor: none !important;
-        }
+.my-select-js .list-wrapper .list-ul:not(.key-active) {
+    overflow-y: auto;
+}
 
-        & .list-ul{
-            border: 1px solid gray;
-            max-height: 214px;
-    
-            & .custom-list {
-                padding: 8px 16px;
-                cursor: pointer;
-                font-size: 14px;
-            }
-    
-            & .custom-list.active {
-                background: blue !important;
-                color: white;
-            }
+.my-select-js .list-wrapper .key-active {
+    overflow: hidden;
+}
 
-            & .custom-list.selected {
-                background: rgb(212, 212, 212);
-            }
-        }
+.my-select-js .list-wrapper .key-active .custom-list {
+    cursor: none !important;
+}
 
-        & .search-input-div {
-            height: 35px;
-            width: 100%;
-            border: 1px solid gray;
-            border-bottom: none;
-            display: flex;
+.my-select-js .list-wrapper .list-ul {
+    border: 1px solid var(--list-container-border);
+    max-height: 214px;
+    background: var(--list-container-bg);
+}
 
-            & .search-icon {
-                width: 16px;
-                margin-left: 8px;
-                display: flex;
-                align-items: center;
-            }
-        
-            & .search-icon *{
-                width: 16px;
-            }
-        
-            & .search-input {
-                outline: none;
-                padding: 10px 16px;
-                padding-left: 8px;
-                width: 100%;
-                border: none;
-            }
-        }
+.dark .my-select-js .list-wrapper .list-ul {
+    border: 1px solid var(--list-container-border-dark);
+    background: var(--list-container-bg-dark);
+}
 
-        & .no-data {
-            padding: 10px 16px;
-            border: 1px solid gray;
-            font-size: 14px;
-            text-align: center;
-            text-transform: capitalize;
-            cursor: auto;
-        }
-    }
+.my-select-js .list-wrapper .list-ul .custom-list {
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--list-text);
+}
+.dark .my-select-js .list-wrapper .list-ul .custom-list {
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--list-text-dark);
+}
 
-    & .selected-div {
-        text-transform: capitalize;
-        font-size: 14px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 100%;
-        border: 1px solid gray;
-        padding: 8px 12px;
-        padding-right: 36px;
-        display: flex;
-        flex-wrap: wrap;
+.my-select-js .list-wrapper .list-ul .custom-list.active {
+    background: var(--list-bg-active) !important;
+    color: var(--list-text-active) !important;
+}
 
-        & .multi-selected-option{
-            margin-right: 16px;
-            display: flex;
-            /* align-items: center; */
+.dark .my-select-js .list-wrapper .list-ul .custom-list.active {
+    background: var(--list-bg-active-dark) !important;
+    color: var(--list-text-active-dark) !important;
+}
 
-            & .multi-select-reset-icon{
-                width: 12px;
-                height: 12px;
-                margin-right: 6px;
-            }
-        }
+.my-select-js .list-wrapper .list-ul .custom-list.selected {
+    background: var(--list-bg-selected);
+    color: var(--list-text-selected);
+}
 
-        & .multi-selected-option.active{
-            color: red;
-            transition: all 100ms linear;
-        }
+.dark .my-select-js .list-wrapper .list-ul .custom-list.selected {
+    background: var(--list-bg-selected-dark);
+    color: var(--list-text-selected-dark);
+}
 
-    }
+.my-select-js .list-wrapper .search-input-div {
+    height: 35px;
+    width: 100%;
+    border: 1px solid var(--search-input-border);
+    background: var(--search-input-bg);
+    color: var(--search-input-text);
+    border-bottom: none;
+    display: flex;
+}
 
-    & .arrow-down {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 10px;
-        pointer-events: none;
-    }
+.my-select-js .list-wrapper .search-input-div input{
+    color: var(--search-input-text);
+}
+.dark .my-select-js .list-wrapper .search-input-div input{
+    color: var(--search-input-text-dark);
+}
 
-    & .arrow-down * {
-        width: 14px;
-    }
+.my-select-js .list-wrapper .search-input-div input::placeholder{
+    color: var(--search-input-placeholder-text);
+}
+.dark .my-select-js .list-wrapper .search-input-div input::placeholder{
+    color: var(--search-input-placeholder-text-dark);
+}
 
-    & .reset-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 24px;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-
-        & * {
-            width: 14px;
-        }
-    }
-
-    & .reset-btn:hover {
-        color: red;
-    }
-
-    &.disable {
-        opacity: 0.5;
-        pointer-events: none;
-    }
+.dark .my-select-js .list-wrapper .search-input-div {
+    border: 1px solid var(--search-input-border-dark);
+    border-bottom: none;
+    background: var(--search-input-bg-dark);
+    color: var(--search-input-text-dark);
 }
 
 
+
+.my-select-js .list-wrapper .search-input-div .search-icon {
+    width: 16px;
+    margin-left: 8px;
+    display: flex;
+    background: transparent;
+    align-items: center;
+}
+
+.my-select-js .list-wrapper .search-input-div .search-icon * {
+    width: 16px;
+}
+
+.my-select-js .list-wrapper .search-input-div .search-input {
+    outline: none;
+    padding: 10px 16px;
+    padding-left: 8px;
+    width: 100%;
+    border: none;
+    background: transparent;
+}
+
+.my-select-js .list-wrapper .no-data {
+    padding: 10px 16px;
+    border: 1px solid var(--no-data-border);
+    background: var(--no-data-bg);
+    color: 1px solid var(--no-data-text);
+    font-size: 14px;
+    text-align: center;
+    text-transform: capitalize;
+    cursor: auto;
+}
+
+.dark .my-select-js .list-wrapper .no-data {
+    border: 1px solid var(--no-data-border-dark);
+    background: var(--no-data-bg-dark);
+    color: var(--no-data-text-dark);
+}
+
+.my-select-js .selected-div {
+    text-transform: capitalize;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    border: 1px solid var(--selected-element-border);
+    background: var(--selected-element-bg);
+    color: var(--selected-element-text);
+    padding: 8px 12px;
+    padding-right: 36px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dark .my-select-js .selected-div {
+    background: var(--selected-element-bg-dark);
+    color: var(--selected-element-text-dark);
+    border: 1px solid var(--selected-element-border-dark);
+}
+
+.my-select-js .selected-div .multi-selected-option {
+    margin-right: 16px;
+    display: flex;
+}
+
+.my-select-js .selected-div .multi-selected-option .multi-select-reset-icon {
+    width: 12px;
+    height: 12px;
+    margin-right: 6px;
+}
+
+.my-select-js .selected-div .multi-selected-option.active {
+    color: var(--multi-selected-text-active-color);
+    background: var(--multi-selected-text-active-bg);
+    transition: all 100ms linear;
+}
+
+.dark .my-select-js .selected-div .multi-selected-option.active {
+    color: var(--multi-selected-text-active-color-dark);
+    background: var(--multi-selected-text-active-bg-dark);
+    transition: all 100ms linear;
+}
+
+.my-select-js .arrow-down {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    pointer-events: none;
+}
+
+.my-select-js .arrow-down * {
+    width: 14px;
+}
+
+.my-select-js .reset-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 24px;
+    background: var(--reset-btn-bg);
+    color: var(--reset-btn-color);
+    border: none;
+    cursor: pointer;
+}
+
+.dark .my-select-js .reset-btn {
+    background: var(--reset-btn-bg-dark);
+    color: var(--reset-btn-color-dark);
+}
+
+.my-select-js .reset-btn * {
+    width: 14px;
+}
+
+.my-select-js .reset-btn:hover {
+    color: var(--reset-btn-text-on-hover);
+    background: var(--reset-btn-bg-on-hover);
+}
+
+.dark .my-select-js .reset-btn:hover {
+    color: var(--reset-btn-text-on-hover-dark);
+    background: var(--reset-btn-bg-on-hover-dark);
+}
+
+.my-select-js.disable {
+    opacity: 0.5;
+    pointer-events: none;
+}

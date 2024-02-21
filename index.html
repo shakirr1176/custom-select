@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./mySelect/css/selectTheme.css">
     <link rel="stylesheet" href="./mySelect/css/mySelect.css">
-
 
     <style>
         * {
@@ -46,10 +46,13 @@
             min-width: 150px;
             max-width: 500px;
         }
+        .dark{
+            background: rgb(46, 46, 46);
+        }
     </style>
 </head>
 
-<body>
+<body class="dark">
     <div class="container">
         <div class="content">
 
@@ -126,7 +129,6 @@
         let mySelect = document.querySelector('.cus-select')
 
         let myselect = new TurnIntoCustom(mySelect, {
-
             multiple: true,
             search: true,
             reset: true,

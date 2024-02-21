@@ -1,0 +1,53 @@
+.my-select-js{
+    /* normal theme change */
+    --list-wrapper-bg : white;
+    --list-container-border : gray;
+    --list-container-bg : none;
+    --list-text: black;
+    --list-bg-active: blue;
+    --list-text-active: white;
+    --list-bg-selected: rgb(212, 212, 212);
+    --list-text-selected: black;
+    --search-input-border: gray;
+    --search-input-bg: transparent;
+    --search-input-text: rgb(37, 37, 37);
+    --search-input-placeholder-text: black;
+    --no-data-border: gray;
+    --no-data-bg-dark: transparent;
+    --no-data-text-dark: black;
+    --selected-element-border: gray;
+    --selected-element-bg: white;
+    --selected-element-text: black;
+    --multi-selected-text-active-color: red;
+    --multi-selected-text-active-bg: transparent;
+    --reset-btn-color: black;
+    --reset-btn-bg: transparent;
+    --reset-btn-text-on-hover: red;
+    --reset-btn-bg-on-hover: transparent;
+
+    /* dark mode them */
+    --list-wrapper-bg-dark : rgb(20, 20, 20);
+    --list-container-border-dark : gray;
+    --list-container-bg-dark : none;
+    --list-text-dark: white;
+    --list-bg-active-dark: blue;
+    --list-text-active-dark: white;
+    --list-bg-selected-dark: rgba(70, 70, 70, 0.479);
+    --list-text-selected-dark: rgb(253, 253, 253);
+    --search-input-border-dark: gray;
+    --search-input-bg-dark: black;
+    --search-input-placeholder-text-dark: rgb(209, 209, 209);
+    --search-input-text-dark: white;
+    --no-data-border-dark: gray;
+    --no-data-bg-dark: black;
+    --no-data-text-dark: white;
+    --selected-element-border-dark: gray;
+    --selected-element-bg-dark: black;
+    --selected-element-text-dark: white;
+    --multi-selected-text-active-color-dark: red;
+    --multi-selected-text-active-bg-dark: transparent;
+    --reset-btn-color-dark: white;
+    --reset-btn-bg-dark: transparent;
+    --reset-btn-text-on-hover-dark: red;
+    --reset-btn-bg-on-hover-dark: transparent;
+}
