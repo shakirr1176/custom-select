@@ -1,3 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&display=swap');
+
+.my-select-js{
+    /* normal theme change */
+    --selected-element-bg: #E3E1D9;
+    --selected-element-text: black;
+
+    --down-arrow-color: black;
+
+    --reset-btn-color: black;
+    --reset-btn-bg: transparent;
+
+    --reset-btn-color-on-hover: red;
+    --reset-btn-bg-on-hover: transparent;
+
+    --list-wrapper-bg : #F2EFE5;
+    --list-wrapper-shadow: rgb(161, 161, 161);
+
+    --search-field-bg: #E3E1D9;
+    --search-input-text: rgb(37, 37, 37);
+    --search-input-placeholder-text: black;
+
+    --list-container-bg : transparent;
+
+    --list-text: black;
+    --list-bg: transparent;
+    --list-bg-hover: blue;
+    --list-text-hover: white;
+    --list-bg-selected: #E3E1D9;
+    --list-text-selected: black;
+
+    --no-data-bg-dark: transparent;
+    --no-data-text-dark: black;
+
+    --multi-selected-cancel-icon-on-hover: red;
+
+
+    /* dark mode them */
+    --selected-element-bg-dark: #24292e;
+    --selected-element-text-dark: #a0a0a0;
+
+    --down-arrow-color-dark: #a0a0a0;
+
+    --reset-btn-color-dark: #a0a0a0;
+    --reset-btn-bg-dark: transparent;
+
+    --reset-btn-color-on-hover-dark: red;
+    --reset-btn-bg-on-hover-dark: transparent;
+
+    --list-wrapper-bg-dark : #24292e;
+    --list-wrapper-shadow-dark: rgb(12, 12, 12);
+
+    --search-field-bg-dark: #343C44;
+    --search-input-placeholder-text-dark: rgb(209, 209, 209);
+    --search-input-text-dark: white;
+
+    --list-container-bg-dark : none;
+
+    --list-text-dark: white;
+    --list-bg-hover-dark: #FFA800;
+    --list-text-hover-dark: white;
+    --list-bg-selected-dark: #2F363D;
+    --list-text-selected-dark: white;
+
+    --no-data-bg-dark: #24292e;
+    --no-data-text-dark: white;
+
+    --multi-selected-cancel-icon-on-hover-dark: red;
+    
+}
+
 .hidden {
     display: none;
 }
@@ -8,6 +79,7 @@
     width: 100%;
     height: fit-content;
     cursor: pointer;
+    font-family: "Poppins", sans-serif;
 }
 
 .my-select-js .list-wrapper {
@@ -19,10 +91,14 @@
     white-space: nowrap;
     min-width: 100%;
     width: auto;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px var(--list-wrapper-shadow);
 }
 
 .dark .my-select-js .list-wrapper {
     background: var(--list-wrapper-bg-dark);
+    box-shadow: 0 5px 10px var(--list-wrapper-shadow-dark);
 }
 
 .my-select-js .list-wrapper .list-ul:not(.key-active) {
@@ -38,37 +114,35 @@
 }
 
 .my-select-js .list-wrapper .list-ul {
-    border: 1px solid var(--list-container-border);
-    max-height: 214px;
+    max-height: 230px;
     background: var(--list-container-bg);
 }
 
 .dark .my-select-js .list-wrapper .list-ul {
-    border: 1px solid var(--list-container-border-dark);
     background: var(--list-container-bg-dark);
 }
 
 .my-select-js .list-wrapper .list-ul .custom-list {
-    padding: 8px 16px;
+    padding: .625rem 1rem;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     color: var(--list-text);
+    background: var(--list-bg);
 }
+
 .dark .my-select-js .list-wrapper .list-ul .custom-list {
-    padding: 8px 16px;
-    cursor: pointer;
-    font-size: 14px;
     color: var(--list-text-dark);
+    background: var(--list-bg-dark);
 }
 
 .my-select-js .list-wrapper .list-ul .custom-list.active {
-    background: var(--list-bg-active) !important;
-    color: var(--list-text-active) !important;
+    background: var(--list-bg-hover) !important;
+    color: var(--list-text-hover) !important;
 }
 
 .dark .my-select-js .list-wrapper .list-ul .custom-list.active {
-    background: var(--list-bg-active-dark) !important;
-    color: var(--list-text-active-dark) !important;
+    background: var(--list-bg-hover-dark) !important;
+    color: var(--list-text-hover-dark) !important;
 }
 
 .my-select-js .list-wrapper .list-ul .custom-list.selected {
@@ -82,17 +156,22 @@
 }
 
 .my-select-js .list-wrapper .search-input-div {
-    height: 35px;
+    height: 40px;
     width: 100%;
-    border: 1px solid var(--search-input-border);
-    background: var(--search-input-bg);
+    background: var(--search-field-bg);
     color: var(--search-input-text);
-    border-bottom: none;
     display: flex;
+    border-bottom:1px solid rgb(196, 196, 196) ;
+}
+
+.dark .my-select-js .list-wrapper .search-input-div{
+    border-bottom: none;
 }
 
 .my-select-js .list-wrapper .search-input-div input{
     color: var(--search-input-text);
+    border: none;
+    padding: 0 16px 0 8px;
 }
 .dark .my-select-js .list-wrapper .search-input-div input{
     color: var(--search-input-text-dark);
@@ -106,19 +185,18 @@
 }
 
 .dark .my-select-js .list-wrapper .search-input-div {
-    border: 1px solid var(--search-input-border-dark);
-    border-bottom: none;
-    background: var(--search-input-bg-dark);
+    background: var(--search-field-bg-dark);
     color: var(--search-input-text-dark);
 }
 
-
-
 .my-select-js .list-wrapper .search-input-div .search-icon {
-    width: 16px;
-    margin-left: 8px;
+    width: 32px;
+    flex-shrink: 0;
     display: flex;
     background: transparent;
+    align-items: center;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
@@ -128,50 +206,44 @@
 
 .my-select-js .list-wrapper .search-input-div .search-input {
     outline: none;
-    padding: 10px 16px;
-    padding-left: 8px;
     width: 100%;
-    border: none;
     background: transparent;
 }
 
 .my-select-js .list-wrapper .no-data {
     padding: 10px 16px;
-    border: 1px solid var(--no-data-border);
     background: var(--no-data-bg);
     color: 1px solid var(--no-data-text);
-    font-size: 14px;
+    font-size: 12px;
     text-align: center;
     text-transform: capitalize;
     cursor: auto;
 }
 
 .dark .my-select-js .list-wrapper .no-data {
-    border: 1px solid var(--no-data-border-dark);
     background: var(--no-data-bg-dark);
     color: var(--no-data-text-dark);
 }
 
 .my-select-js .selected-div {
     text-transform: capitalize;
-    font-size: 14px;
+    font-size: 12px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
-    border: 1px solid var(--selected-element-border);
     background: var(--selected-element-bg);
     color: var(--selected-element-text);
-    padding: 8px 12px;
     padding-right: 36px;
     display: flex;
     flex-wrap: wrap;
+    padding: .625rem 1rem;
+    border-radius: 6px;
 }
 
 .dark .my-select-js .selected-div {
     background: var(--selected-element-bg-dark);
     color: var(--selected-element-text-dark);
-    border: 1px solid var(--selected-element-border-dark);
 }
 
 .my-select-js .selected-div .multi-selected-option {
@@ -186,15 +258,12 @@
 }
 
 .my-select-js .selected-div .multi-selected-option.active {
-    color: var(--multi-selected-text-active-color);
-    background: var(--multi-selected-text-active-bg);
+    color: var(--multi-selected-cancel-icon-on-hover);
     transition: all 100ms linear;
 }
 
 .dark .my-select-js .selected-div .multi-selected-option.active {
-    color: var(--multi-selected-text-active-color-dark);
-    background: var(--multi-selected-text-active-bg-dark);
-    transition: all 100ms linear;
+    color: var(--multi-selected-cancel-icon-on-hover-dark);
 }
 
 .my-select-js .arrow-down {
@@ -203,10 +272,15 @@
     transform: translateY(-50%);
     right: 10px;
     pointer-events: none;
+    color: var(--down-arrow-color);
+}
+
+.dark .my-select-js .arrow-down {
+    color: var(--down-arrow-color-dark);
 }
 
 .my-select-js .arrow-down * {
-    width: 14px;
+    width: 12px;
 }
 
 .my-select-js .reset-btn {
@@ -226,16 +300,16 @@
 }
 
 .my-select-js .reset-btn * {
-    width: 14px;
+    width: 12px;
 }
 
 .my-select-js .reset-btn:hover {
-    color: var(--reset-btn-text-on-hover);
+    color: var(--reset-btn-color-on-hover);
     background: var(--reset-btn-bg-on-hover);
 }
 
 .dark .my-select-js .reset-btn:hover {
-    color: var(--reset-btn-text-on-hover-dark);
+    color: var(--reset-btn-color-on-hover-dark);
     background: var(--reset-btn-bg-on-hover-dark);
 }
 

@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./mySelect/css/selectTheme.css">
     <link rel="stylesheet" href="./mySelect/css/mySelect.css">
 
     <style>
@@ -47,7 +46,7 @@
             max-width: 500px;
         }
         .dark{
-            background: rgb(46, 46, 46);
+            background: rgb(16, 17, 22);
         }
     </style>
 </head>
@@ -56,6 +55,46 @@
     <div class="container">
         <div class="content">
 
+            <div class="custom-select1">
+                <select autocomplete="off">
+                    <option value="">select</option>
+                    <option value="1">ls 1</option>
+                    <option value="2">ls 2</option>
+                    <option value="3">ls 3</option>
+                    <option value="4">ls 4</option>
+                    <option value="5">ls 5</option>
+                </select>
+            </div>
+            <div class="custom-select1">
+                <select autocomplete="off">
+                    <option value="">select</option>
+                    <option value="1">ls 1</option>
+                    <option value="2">ls 2</option>
+                    <option value="3">ls 3</option>
+                    <option value="4">ls 4</option>
+                    <option value="5">ls 5</option>
+                </select>
+            </div>
+            <div class="custom-select1">
+                <select autocomplete="off">
+                    <option value="">select</option>
+                    <option value="1">ls 1</option>
+                    <option value="2">ls 2</option>
+                    <option value="3">ls 3</option>
+                    <option value="4">ls 4</option>
+                    <option value="5">ls 5</option>
+                </select>
+            </div>
+            <div class="custom-select1">
+                <select autocomplete="off">
+                    <option value="">select</option>
+                    <option value="1">ls 1</option>
+                    <option value="2">ls 2</option>
+                    <option value="3">ls 3</option>
+                    <option value="4">ls 4</option>
+                    <option value="5">ls 5</option>
+                </select>
+            </div>
             <div class="custom-select1">
                 <select autocomplete="off">
                     <option value="">select</option>
@@ -101,34 +140,43 @@
                 <button class="com-btn add-select">add new select</button>
             </div>
         </div>
+
+        <div class="shakir"></div>
+        <div class="shakir"></div>
+        <div class="shakir"></div>
+        <div class="shakir"></div>
+        <div class="alam"></div>
     </div>
 
     <script type="module">
 
         import { countries, selectedCountry, lang } from "./country.js";
-        import { TurnIntoCustom, customSelect } from "./mySelect/js/select.js";
 
-        let customSelect1 = document.querySelector('.custom-select1')
+        import { turnIntoCustom, onChangeFun } from "./mySelect/js/select.js";
+
+        let customSelect1 = document.querySelectorAll('.custom-select1')
         let customSelect2 = document.querySelector('.custom-select2')
         let customSelect3 = document.querySelector('.custom-select3')
 
-        let aa1 = new TurnIntoCustom(customSelect1,{
+        turnIntoCustom(customSelect1,{
             default_selected_text: 'select'
         })
         
-        let aa2 = new TurnIntoCustom(customSelect2, {
+        turnIntoCustom(customSelect2, {
             search: true
         })
 
-        let aa3 = new TurnIntoCustom(customSelect3)
+        onChangeFun((el)=>{
+            console.log(el.value);
+        })
 
-        customSelect.onChange = (select) => {
-            // console.log(select.selectedOptions);
-        }
+
+        turnIntoCustom(customSelect3)
+
 
         let mySelect = document.querySelector('.cus-select')
 
-        let myselect = new TurnIntoCustom(mySelect, {
+        turnIntoCustom(mySelect, {
             multiple: true,
             search: true,
             reset: true,
@@ -147,7 +195,7 @@
 
             drop_down_icon: `<svg xmlns="htfirstLitp://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>`,
 
-            no_Data_Msg : 'no country found'
+            no_Data_Msg : 'no country found',
         });
 
         let addSelect = document.querySelector('.add-select')
@@ -159,7 +207,7 @@
             DIV.innerHTML = ` <select multiple autocomplete="off"></select>`
             content.append(DIV)
 
-            let nwwSelect = new TurnIntoCustom(DIV, {
+            turnIntoCustom(DIV, {
                 search: true,
                 options: countries,
             });

@@ -1,7 +1,7 @@
 import CommonVar from "./commonVar.js"
 import EventHandle from "./eventHandle.js"
 
-export class TurnIntoCustom extends CommonVar {
+class TurnIntoCustom extends CommonVar {
     constructor(wrapper, option) {
         super()
         this.declaration(wrapper, option)
@@ -357,4 +357,20 @@ export class TurnIntoCustom extends CommonVar {
     }
 }
 
-export let customSelect = new EventHandle({})
+let customSelect = new EventHandle({})
+
+export function onChangeFun(callBack){
+    return customSelect.onChange = (select)=>{callBack(select)}
+}
+
+export function turnIntoCustom(el,option){
+    if(el){
+        if(el.length){
+            el.forEach(x=> {
+                return new TurnIntoCustom(x,option)
+            })
+        }else{
+            return new TurnIntoCustom(el,option)
+        }
+    }
+}
