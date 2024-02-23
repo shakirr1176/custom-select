@@ -1,131 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./mySelect/css/mySelect.css">
+    <link rel="stylesheet" href="./mySelect/css/mySelect.css" />
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        .container {
-            max-width: 1140px;
-            padding: 16px;
-            margin: auto;
-        }
+      .container {
+        max-width: 1140px;
+        padding: 16px;
+        margin: auto;
+      }
 
-        .content {
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-        }
+      .content {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+      }
 
-        ul {
-            list-style: none;
-        }
+      ul {
+        list-style: none;
+      }
 
-        .content>div {
-            margin-bottom: 16px;
-            max-width: 400px;
-        }
+      .content > div {
+        margin-bottom: 16px;
+        max-width: 400px;
+      }
 
-        .com-btn {
-            font-size: 12px;
-            padding: 9px 16px;
-            margin-right: 16px;
-        }
+      .com-btn {
+        font-size: 12px;
+        padding: 9px 16px;
+        margin-right: 16px;
+      }
 
-        .cus-select {
-            min-width: 150px;
-            max-width: 500px;
-        }
-        .dark{
-            background: rgb(16, 17, 22);
-        }
+      .cus-select {
+        min-width: 150px;
+        max-width: 500px;
+      }
+      .dark {
+        background: rgb(16, 17, 22);
+      }
     </style>
-</head>
+  </head>
 
-<body class="dark">
+  <body class="">
     <div class="container">
-        <div class="content">
+      <div class="content">
+        <div class="custom-select1">
+          <select autocomplete="off">
+            <option value="">select</option>
+            <option value="1">ls 1</option>
+            <option value="2">ls 2</option>
+            <option value="3">ls 3</option>
+            <option value="4">ls 4</option>
+            <option value="5">ls 5</option>
+          </select>
+        </div>
 
-            <div class="custom-select1">
-                <select autocomplete="off">
-                    <option value="">select</option>
-                    <option value="1">ls 1</option>
-                    <option value="2">ls 2</option>
-                    <option value="3">ls 3</option>
-                    <option value="4">ls 4</option>
-                    <option value="5">ls 5</option>
-                </select>
-            </div>
-            <div class="custom-select1">
-                <select autocomplete="off">
-                    <option value="">select</option>
-                    <option value="1">ls 1</option>
-                    <option value="2">ls 2</option>
-                    <option value="3">ls 3</option>
-                    <option value="4">ls 4</option>
-                    <option value="5">ls 5</option>
-                </select>
-            </div>
-            <div class="custom-select1">
-                <select autocomplete="off">
-                    <option value="">select</option>
-                    <option value="1">ls 1</option>
-                    <option value="2">ls 2</option>
-                    <option value="3">ls 3</option>
-                    <option value="4">ls 4</option>
-                    <option value="5">ls 5</option>
-                </select>
-            </div>
-            <div class="custom-select1">
-                <select autocomplete="off">
-                    <option value="">select</option>
-                    <option value="1">ls 1</option>
-                    <option value="2">ls 2</option>
-                    <option value="3">ls 3</option>
-                    <option value="4">ls 4</option>
-                    <option value="5">ls 5</option>
-                </select>
-            </div>
-            <div class="custom-select1">
-                <select autocomplete="off">
-                    <option value="">select</option>
-                    <option value="1">ls 1</option>
-                    <option value="2">ls 2</option>
-                    <option value="3">ls 3</option>
-                    <option value="4">ls 4</option>
-                    <option value="5">ls 5</option>
-                </select>
-            </div>
+        <div class="custom-select1">
+          <select autocomplete="off">
+            <option value="">select</option>
+            <option value="1">ls 1</option>
+            <option selected value="2">ls 2</option>
+            <option value="3">ls 3</option>
+            <option value="4">ls 4</option>
+            <option value="5">ls 5</option>
+          </select>
+        </div>
 
-            <div class="custom-select2">
-                <select autocomplete="off">
-                    <option value="1">ls 1</option>
-                    <option selected value="2">ls 2</option>
-                    <option value="3">ls 3</option>
-                    <option value="4">ls 4</option>
-                    <option value="5">ls 5</option>
-                </select>
-            </div>
+        <div class="custom-select2">
+          <select class="b" autocomplete="off">
+            <option value="1">ls 1</option>
+            <option selected value="2">ls 2</option>
+            <option value="3">ls 3</option>
+            <option value="4">ls 4</option>
+            <option value="5">ls 5</option>
+          </select>
+        </div>
 
-            <div class="custom-select3">
-                <select autocomplete="off">
-                    <option selected value="1">active</option>
-                    <option value="0">inactive</option>
-                </select>
-            </div>
+        <div class="custom-select3">
+          <select autocomplete="off">
+            <option selected value="1">active</option>
+            <option value="0">inactive</option>
+          </select>
+        </div>
 
-            <div class="cus-select">
-                <select class="ore" autocomplete="off">
-                    <!-- <option value="BD">bangladesh</option>
+        <div class="cus-select">
+          <select class="ore" autocomplete="off">
+            <!-- <option value="BD">bangladesh</option>
                     <option value="IND">india</option>
                     <option value="PAK">pakistan</option>
                     <option value="BHU">bhutan</option>
@@ -134,90 +103,74 @@
                     <option value="MAL">maldip</option>
                     <option value="MAY">mayanmar</option>
                     <option value="AFG">afganstan</option> -->
-                </select>
-            </div>
-            <div>
-                <button class="com-btn add-select">add new select</button>
-            </div>
+          </select>
         </div>
-
-        <div class="shakir"></div>
-        <div class="shakir"></div>
-        <div class="shakir"></div>
-        <div class="shakir"></div>
-        <div class="alam"></div>
+        <div>
+          <button class="com-btn add-select">add new select</button>
+        </div>
+      </div>
     </div>
 
     <script type="module">
+      import { countries, selectedCountry, lang } from "./country.js";
 
-        import { countries, selectedCountry, lang } from "./country.js";
+      import { turnIntoCustom } from "./mySelect/js/select.js";
 
-        import { turnIntoCustom, onChangeFun } from "./mySelect/js/select.js";
+      let customSelect1 = document.querySelectorAll(".custom-select1");
+      let customSelect2 = document.querySelector(".custom-select2");
+      let customSelect3 = document.querySelector(".custom-select3");
 
-        let customSelect1 = document.querySelectorAll('.custom-select1')
-        let customSelect2 = document.querySelector('.custom-select2')
-        let customSelect3 = document.querySelector('.custom-select3')
+      turnIntoCustom(customSelect1);
 
-        turnIntoCustom(customSelect1,{
-            default_selected_text: 'select'
-        })
-        
-        turnIntoCustom(customSelect2, {
-            search: true
-        })
+      turnIntoCustom(customSelect2, {
+        search: true,
+      });
 
-        onChangeFun((el)=>{
-            console.log(el.value);
-        })
+      turnIntoCustom(customSelect3);
 
+      let mySelect = document.querySelector(".cus-select");
 
-        turnIntoCustom(customSelect3)
-
-
-        let mySelect = document.querySelector('.cus-select')
-
-        turnIntoCustom(mySelect, {
-            multiple: true,
-            search: true,
-            reset: true,
-            placeholder: 'Search country',
-            default_selected_text: 'select country',
-            options: selectedCountry,
-            search_type: 'similar',
-            show_option: 6,
-            search_icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+      turnIntoCustom(mySelect, {
+        multiple: true,
+        search: true,
+        reset: true,
+        placeholder: "Search country",
+        default_selected_text: "select country",
+        options: selectedCountry,
+        search_type: "similar",
+        show_option: 6,
+        search_icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                         </svg>`,
 
-            observe : true,
+        observe: true,
 
-            reset_icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"     stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`,
+        reset_icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"     stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`,
 
-            drop_down_icon: `<svg xmlns="htfirstLitp://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>`,
+        drop_down_icon: `<svg xmlns="htfirstLitp://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>`,
 
-            no_Data_Msg : 'no country found',
+        no_Data_Msg: "no country found",
+      });
+
+      let addSelect = document.querySelector(".add-select");
+      let content = document.querySelector(".content");
+
+      addSelect.addEventListener("click", () => {
+        let DIV = document.createElement("div");
+        DIV.className = "cus-select";
+        DIV.innerHTML = ` <select multiple autocomplete="off"></select>`;
+        content.append(DIV);
+
+        turnIntoCustom(DIV, {   
+          reset: true,
+          options: countries,
+          default_selected_text: "Select country",
         });
+      });
 
-        let addSelect = document.querySelector('.add-select')
-        let content = document.querySelector('.content')
-
-        addSelect.addEventListener('click', () => {
-            let DIV = document.createElement('div')
-            DIV.className = 'cus-select'
-            DIV.innerHTML = ` <select multiple autocomplete="off"></select>`
-            content.append(DIV)
-
-            turnIntoCustom(DIV, {
-                search: true,
-                options: countries,
-            });
-        })
-
-        // window.addEventListener('click',()=>{
-        //     console.log(mySelect.querySelector('select').selectedOptions);
-        // })
-
+      // window.addEventListener('click',()=>{
+      //     console.log(mySelect.querySelector('select').selectedOptions);
+      // })
     </script>
-</body>
-
+  </body>
 </html>
