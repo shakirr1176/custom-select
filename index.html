@@ -47,10 +47,52 @@
       .dark {
         background: rgb(16, 17, 22);
       }
+      .dark-light > svg{
+        width: 100%;
+        height: 100%;
+      }
+
+      .dark-light{
+        width: 20px;
+        height: 20px;
+        position: fixed;
+        right: 32px;
+        top: 32px;
+        cursor: pointer;
+      }
+
+      .dark-light svg:first-child{
+        display: block;
+      }
+
+      .dark-light svg:last-child{
+        display: none;
+      }
+
+      .dark .dark-light svg:first-child{
+        display: none;
+      }
+      
+      .dark-light svg:last-child{
+        display: block;
+        color: white;
+      }
+
     </style>
   </head>
 
-  <body class="">
+  <body class="dark">
+
+    <div class="dark-light">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+      </svg>      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+      </svg>
+    </div>
+
     <div class="container">
       <div class="content">
         <div class="custom-select1">
@@ -64,11 +106,10 @@
           </select>
         </div>
 
-        <div class="custom-select1">
+        <div class="custom-select11">
           <select autocomplete="off">
-            <option value="">select</option>
             <option value="1">ls 1</option>
-            <option selected value="2">ls 2</option>
+            <option value="2">ls 2</option>
             <option value="3">ls 3</option>
             <option value="4">ls 4</option>
             <option value="5">ls 5</option>
@@ -112,15 +153,38 @@
     </div>
 
     <script type="module">
+
+      let darkLight = document.querySelector('.dark-light')
+        
+      if(localStorage.getItem('dark') == 'true'){
+        document.querySelector('body').classList.add('dark')
+      }else{
+        document.querySelector('body').classList.remove('dark')
+      }
+
+      darkLight.addEventListener('click',()=>{
+        document.querySelector('body').classList.toggle('dark')
+        if(document.querySelector('body').classList.contains('dark')){
+          localStorage.setItem('dark',true)
+        }else{
+          localStorage.removeItem('dark')
+        }
+      })
+
       import { countries, selectedCountry, lang } from "./country.js";
 
       import { turnIntoCustom } from "./mySelect/js/select.js";
 
-      let customSelect1 = document.querySelectorAll(".custom-select1");
+      let customSelect1 = document.querySelector(".custom-select1");
+      let customSelect11 = document.querySelector(".custom-select11");
       let customSelect2 = document.querySelector(".custom-select2");
       let customSelect3 = document.querySelector(".custom-select3");
 
       turnIntoCustom(customSelect1);
+      turnIntoCustom(customSelect11,{
+        reset: true,
+        default_selected_text: 'select option'
+      });
 
       turnIntoCustom(customSelect2, {
         search: true,
